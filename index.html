@@ -39,7 +39,7 @@
         .vcard {
             width: 90%;
             max-width: 420px;
-            height: 580px; /* تم تقليل الطول قليلاً ليناسب حذف الزر */
+            height: 580px;
             background: var(--front_color);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
@@ -121,7 +121,7 @@
         }
 
         .social {
-            margin-top: 20px; /* مسافة متوازنة بعد النص */
+            margin-top: 20px;
         }
 
         .social div {
@@ -130,10 +130,6 @@
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-        }
-
-        .social a {
-            text-decoration: none;
         }
 
         .social i {
@@ -151,7 +147,6 @@
             background: rgba(197, 160, 89, 0.15);
             transform: translateY(-5px);
             border-color: var(--gold);
-            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.2);
         }
 
         .footer-text {
@@ -174,8 +169,9 @@
             <div class="wave-03"></div>
         </div>
         <div class="profile_pic_content">
-            <video class="profile_video" autoplay loop muted playsinline>
+            <video class="profile_video" autoplay loop muted playsinline poster="iou.jpg">
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
+                متصفحك لا يدعم الفيديو.
             </video>
         </div>
     </div>
@@ -191,13 +187,13 @@
 
         <div class="social">
             <div>
-                <a href="https://t.me/kokksha" title="Telegram"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.facebook.com/share/15KQ2NmX9V/" title="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://github.com/salemalshamrie" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="tg://settings" title="Profile Settings"><i class="fas fa-user"></i></a>
-                <a href="https://g.co/kgs/pXVXQxK" title="Sports"><i class="fas fa-futbol"></i></a>
-                <a href="https://uokerbala.edu.iq/" title="University"><i class="fas fa-university"></i></a>
+                <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/salemalshamrie"><i class="fab fa-github"></i></a>
+                <a href="tg://settings"><i class="fas fa-user"></i></a>
+                <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol"></i></a>
+                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
             </div>
         </div>
     </div>
@@ -212,7 +208,7 @@
         strings: [
             "Web Designer & Creative Developer.", 
             "Turning code into visual art.", 
-            "Proudly Based in <span style='color: #FFD700; font-weight: bold;'>Karbala, Iraq</span>."
+            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>, NOTHING IS IMPOSSIBLE."
         ],
         typeSpeed: 50,
         backSpeed: 30,
