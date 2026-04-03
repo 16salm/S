@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html lang="ar">
 <head>
@@ -17,7 +16,6 @@
             --front_color: linear-gradient(to bottom, #100f1c, #27203d, #3f2f5e, #573f7f, #6f4fa0);
             --purple: #6C63FF;
             --pink: #FF6B6B;
-            --blue: #888888;
         }
 
         * {
@@ -66,34 +64,11 @@
             background: linear-gradient(to top right, var(--purple), var(--pink));
         }
 
-        .wave-01 {
-            border-radius: 50%;
-            top: -200%;
-            left: -20%;
-            animation: rotate 10s linear infinite;
-        }
+        .wave-01 { border-radius: 50%; top: -200%; left: -20%; animation: rotate 10s linear infinite; }
+        .wave-02 { border-radius: 40%; top: -205%; left: -22%; opacity: 0.5; animation: rotate 15s linear infinite; }
+        .wave-03 { border-radius: 45%; top: -198%; left: -18%; opacity: 0.2; animation: rotate 15s linear infinite; }
 
-        .wave-02 {
-            border-radius: 40%;
-            top: -205%;
-            left: -22%;
-            opacity: 0.5;
-            animation: rotate 15s linear infinite;
-        }
-
-        .wave-03 {
-            border-radius: 45%;
-            top: -198%;
-            left: -18%;
-            opacity: 0.2;
-            animation: rotate 15s linear infinite;
-        }
-
-        @keyframes rotate {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
 
         .profile_pic_content {
             width: 150px;
@@ -103,35 +78,15 @@
             left: 50%;
             transform: translate(-50%, -50%);
             top: 80%;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden; /* تم إضافة هذا للتأكد من الصورة داخل الإطار */
-        }
-
-        .profile_pic_content::after {
-            content: '';
-            border-radius: 50%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, var(--purple), var(--pink));
-            position: absolute;
-            top: 0; /* تم تعديل التنسيق لضمان التمركز */
-            left: 0;
-            z-index: 1; /* تم تغيير الـ z-index ليكون فوق الصورة ولكنه مخفي */
-            opacity: 0;
-            transition: all .7s;
-            pointer-events: none; /* لمنع التداخل مع الصورة */
-        }
-
-        .profile_pic_content:hover::after {
-            opacity: 0.2;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.1);
         }
 
         .profile_pic {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* تم إضافة هذا لقص الصورة لتناسب الدائرة */
-            border-radius: 100%;
+            object-fit: cover; /* لضمان عدم تمدد الصورة */
             display: block;
         }
 
@@ -152,14 +107,10 @@
         .snuff {
             margin-top: 5px;
             padding: 0 10px;
-            background: linear-gradient(to right, var(--pink), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: white;
         }
 
-        .typed_text {
-            text-align: center;
-        }
+        .typed_text { text-align: center; }
 
         .social {
             padding: 5px;
@@ -167,53 +118,36 @@
             width: fit-content;
         }
 
-        .social div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .social div { display: flex; justify-content: center; align-items: center; }
 
-        .social a {
-            text-decoration: none;
-            margin: 0 5px; /* Add spacing between icons */
-        }
+        .social a { text-decoration: none; margin: 0 5px; }
 
         .social i {
             padding: 10px;
             font-size: 1.2em;
-            transition: color 0.3s ease-in-out; /* Add transition effect */
+            transition: transform 0.3s ease;
         }
 
-        .social i:hover {
-            color: white; /* Change color on hover */
-        }
+        .social i:hover { transform: scale(1.2); color: white !important; }
 
         .satanic {
             cursor: pointer;
             display: block;
             text-decoration: none;
-            width: 50%;
-            margin: 10px auto 0;
+            width: 60%;
+            margin: 15px auto 0;
             background: linear-gradient(to top right, var(--pink), var(--purple));
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 12px 20px;
+            border-radius: 30px;
             color: white;
             font-weight: bolder;
-            transition: all .7s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: box-shadow 0.3s ease-in-out; /* Add transition effect */
-            transition: color 0.3s ease-in-out; /* Add transition effect */
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .satanic:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.39);
-            color: black;
-        }
-
-        .card_content p {
-            background: linear-gradient(to right, var(--pink), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+            transform: translateY(-2px);
         }
 
         .cursor {
@@ -224,11 +158,7 @@
             animation: blink 0.5s infinite;
         }
 
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -240,7 +170,7 @@
             <div class="wave-03"></div>
         </div>
         <div class="profile_pic_content">
-            <img class="profile_pic" src="IMG_3662.jpeg" alt="SALEM's Profile Picture">
+            <img class="profile_pic" src="IMG_4738.jpeg" alt="SALEM">
         </div>
     </div>
     <div class="card_content">
@@ -253,27 +183,24 @@
         <div class="social">
             <div>
                 <a href="https://t.me/kokksha"><i class="fab fa-telegram" style="color: #2AABEE;"></i></a>
-                <a href="https://woershiduoqipa.cc/Inst?id=e1457255-1e35-4748-9c68-08dd78d832a5"><i class="fab fa-instagram" style="color: #E1306C;"></i></a>
-                <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook" style="color: #1877F2;"></i></a>
-                <a href="tg://settings"><i class="fas fa-user" style="color: #25D366;"></i></a>
-                <a href="https://github.com/salemalshamrie"><i class="fab fa-github" style="color: #171515;"></i></a>
-                <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol" style="color: #DB4437;"></i></a>
-                <a href="https://woershiduoqipa.cc/Tikto?id=e1457255-1e35-4748-9c68-08dd78d832a5"><i class="fab fa-tiktok" style="color: #000000;"></i></a>
-            </div>
-            <div>
-                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university" style="color: #1976d2;"></i></a>
+                <a href="#"><i class="fab fa-instagram" style="color: #E1306C;"></i></a>
+                <a href="#"><i class="fab fa-facebook" style="color: #1877F2;"></i></a>
+                <a href="https://github.com/salemalshamrie"><i class="fab fa-github" style="color: #ffffff;"></i></a>
+                <a href="#"><i class="fas fa-futbol" style="color: #DB4437;"></i></a>
             </div>
         </div>
-        <a class="satanic" href="https://t.me/kokksha"><i class="fab fa-telegram"></i>Join Channel</a>
-        <p style="font-size: 0.75em; margin-top: 15px; padding: 0 5px;">
-            This page was programmed by Salem Al-Shammari. All rights reserved 2024-2025.
+        <a class="satanic" href="https://t.me/kokksha"><i class="fab fa-telegram"></i> Join Channel</a>
+        <p style="font-size: 0.65em; margin-top: 20px; color: rgba(255,255,255,0.5);">
+            © 2024-2025 Salem Al-Shammari
         </p>
     </div>
 </div>
 <script>
     var options = {
-        strings: ["<i>First Sentence</i>.", "Believe in yourself, nothing is impossible.<br>Telegram Channel: @kokksha<br>Instagram: @_u_vf"],
-        typeSpeed: 7
+        strings: ["Web Designer", "Believe in yourself.", "Telegram: @kokksha"],
+        typeSpeed: 50,
+        backSpeed: 30,
+        loop: true
     };
     var typed = new Typed(".typed_text", options);
 </script>
