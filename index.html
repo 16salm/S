@@ -6,23 +6,24 @@
     <meta name="theme-color" content="#6C63FF"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <meta name="description" content="@kokksha"/>
-    <title>SALEM</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
+    <title>SALEM | سـالـم</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     <style>
         :root {
-            --back_color: linear-gradient(to bottom, #040826, #1a1a40, #36295a, #543974, #73498e);
-            --front_color: linear-gradient(to bottom, #100f1c, #27203d, #3f2f5e, #573f7f, #6f4fa0);
+            --back_color: linear-gradient(135deg, #040826 0%, #1a1a40 100%);
+            --front_color: rgba(26, 25, 48, 0.75); /* شفافية للـ Glassmorphism */
             --purple: #6C63FF;
             --pink: #FF6B6B;
+            --white: #ffffff;
         }
 
         * {
-            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -35,143 +36,156 @@
             align-items: center;
         }
 
+        /* VCard Container with Glassmorphism */
         .vcard {
             width: 90%;
-            max-width: 450px;
-            height: 550px;
+            max-width: 420px;
+            height: 620px; /* زدت الطول قليلاً لاستيعاب الأيقونات الإضافية */
             background: var(--front_color);
-            border-radius: 8px;
-            box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.39);
-            margin-top: -50px;
-            position: relative; /* تم التأكيد عليها لضمان ترتيب الطبقات */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
         }
 
         .header {
-            height: 40%;
+            height: 35%;
             position: relative;
-            z-index: 1; /* طبقة خلفية */
         }
 
+        /* Animated Waves */
         .wave_bg {
-            border-radius: 8px;
-            position: relative;
+            position: absolute;
+            width: 100%;
             height: 100%;
             overflow: hidden;
-            pointer-events: none; /* لمنع الأمواج من حجب النقرات */
+            pointer-events: none;
         }
 
         .wave-01, .wave-02, .wave-03 {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 550px;
+            height: 550px;
             background: linear-gradient(to top right, var(--purple), var(--pink));
         }
 
-        .wave-01 { border-radius: 50%; top: -200%; left: -20%; animation: rotate 10s linear infinite; }
-        .wave-02 { border-radius: 40%; top: -205%; left: -22%; opacity: 0.5; animation: rotate 15s linear infinite; }
-        .wave-03 { border-radius: 45%; top: -198%; left: -18%; opacity: 0.2; animation: rotate 15s linear infinite; }
+        .wave-01 { border-radius: 43%; top: -180%; left: -15%; animation: rotate 12s linear infinite; }
+        .wave-02 { border-radius: 40%; top: -185%; left: -20%; opacity: 0.4; animation: rotate 18s linear reverse infinite; }
+        .wave-03 { border-radius: 45%; top: -175%; left: -10%; opacity: 0.2; animation: rotate 15s ease-in-out infinite; }
 
         @keyframes rotate { 100% { transform: rotate(360deg); } }
 
         .profile_pic_content {
-            width: 150px;
-            height: 150px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             position: absolute;
             left: 50%;
             transform: translate(-50%, -50%);
-            top: 80%;
+            top: 100%;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border: 4px solid rgba(255, 255, 255, 0.15);
             background-color: #000;
-            z-index: 10; /* جعل الصورة فوق الأمواج */
+            z-index: 10;
         }
 
         .profile_video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
         }
 
         .card_content {
-            position: relative;
-            top: 7%;
+            padding-top: 80px;
             text-align: center;
-            z-index: 20; /* رفع منطقة النصوص والروابط لتكون فوق أي تداخل */
         }
 
-        .satan {
-            font-weight: 700;
-            font-size: 1.4em;
+        .satan h4 {
+            font-size: 1.8em;
+            letter-spacing: 2px;
             background: linear-gradient(to right, var(--pink), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
 
         .snuff {
-            margin-top: 5px;
-            padding: 0 10px;
-            color: white;
-            min-height: 80px;
-        }
-
-        .typed_text { 
-            text-align: center; 
-            font-size: 0.9em;
+            min-height: 90px;
+            padding: 0 25px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95em;
             line-height: 1.6;
         }
 
+        /* Social Icons Grid from Code 1 */
         .social {
-            padding: 5px;
-            margin: 45px auto 0;
-            width: fit-content;
-            position: relative;
-            z-index: 30; /* ضمان أن تكون الروابط في أعلى طبقة ممكنة */
+            margin-top: 25px;
+            padding: 0 20px;
         }
 
-        .social div { display: flex; justify-content: center; align-items: center; }
+        .social div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
 
-        .social a { 
-            text-decoration: none; 
-            margin: 0 5px; 
-            display: inline-block; /* لضمان استجابة مساحة الأيقونة بالكامل */
+        .social a {
+            text-decoration: none;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .social i {
-            padding: 10px;
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
-            pointer-events: auto; /* التأكيد على استقبال اللمس */
+            padding: 12px;
+            font-size: 1.3em;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .social i:hover { transform: scale(1.2); color: white !important; }
+        .social a:hover { transform: translateY(-5px); }
+        .social a:hover i { color: var(--white) !important; background: rgba(255, 255, 255, 0.15); }
 
+        /* Call to Action Button */
         .satanic {
-            cursor: pointer;
-            display: block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             text-decoration: none;
-            width: 60%;
-            margin: 15px auto 0;
-            background: linear-gradient(to top right, var(--pink), var(--purple));
-            padding: 12px 20px;
-            border-radius: 30px;
+            width: 80%;
+            margin: 30px auto 0;
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            padding: 15px;
+            border-radius: 15px;
             color: white;
-            font-weight: bolder;
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 30;
+            font-weight: bold;
+            transition: 0.4s;
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
         }
 
         .satanic:hover {
-            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
-            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+            transform: scale(1.02);
+        }
+
+        .footer-text {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            font-size: 0.7em;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
         }
     </style>
 </head>
 <body>
+
 <div class="vcard">
     <div class="header">
         <div class="wave_bg">
@@ -180,44 +194,56 @@
             <div class="wave-03"></div>
         </div>
         <div class="profile_pic_content">
-            <video class="profile_video" autoplay loop muted playsinline>
+            <video class="profile_video" autoplay loop muted playsinline poster="https://via.placeholder.com/150/000000/FFFFFF?text=SALEM">
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
-                متصفحك لا يدعم تشغيل الفيديو.
             </video>
         </div>
     </div>
+
     <div class="card_content">
         <div class="satan">
             <h4>SALEM</h4>
         </div>
+        
         <div class="snuff">
             <h5 class="typed_text"></h5>
         </div>
+
         <div class="social">
             <div>
-                <a href="https://t.me/kokksha"><i class="fab fa-telegram" style="color: #2AABEE;"></i></a>
-                <a href="#"><i class="fab fa-instagram" style="color: #E1306C;"></i></a>
-                <a href="#"><i class="fab fa-facebook" style="color: #1877F2;"></i></a>
-                <a href="https://github.com/salemalshamrie"><i class="fab fa-github" style="color: #ffffff;"></i></a>
-                <a href="#"><i class="fas fa-futbol" style="color: #DB4437;"></i></a>
+                <a href="https://t.me/kokksha" title="Telegram"><i class="fab fa-telegram" style="color: #2AABEE;"></i></a>
+                <a href="https://www.facebook.com/share/15KQ2NmX9V/" title="Facebook"><i class="fab fa-facebook" style="color: #1877F2;"></i></a>
+                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94" title="Instagram"><i class="fab fa-instagram" style="color: #E1306C;"></i></a>
+                <a href="https://github.com/salemalshamrie" title="GitHub"><i class="fab fa-github" style="color: #ffffff;"></i></a>
+                <a href="tg://settings" title="Settings"><i class="fas fa-user" style="color: #888888;"></i></a>
+                <a href="https://g.co/kgs/pXVXQxK" title="Football"><i class="fas fa-futbol" style="color: #DB4437;"></i></a>
+                <a href="https://uokerbala.edu.iq/" title="University"><i class="fas fa-university" style="color: #1976d2;"></i></a>
             </div>
         </div>
-        <a class="satanic" href="https://t.me/kokksha"><i class="fab fa-telegram"></i> Join Channel</a>
-        <p style="font-size: 0.65em; margin-top: 20px; color: rgba(255,255,255,0.5); text-align: center;">
-            © 2024-2026 Salem Al-Shammari
-        </p>
+
+        <a class="satanic" href="https://t.me/kokksha">
+            <i class="fab fa-telegram-plane"></i> Join My Channel
+        </a>
     </div>
+
+    <p class="footer-text">
+        © 2024-2026 Salem Al-Shammari | All Rights Reserved
+    </p>
 </div>
+
 <script>
+    // إعدادات الـ Typed.js مع مراعاة لغة التصميم
     var options = {
-        strings: ["Web Designer <br> There is nothing left to lose. <br> <span style='color: #6C63FF; font-weight: bold;'>Telegram: @kokksha</span>"],
-        typeSpeed: 40,
-        showCursor: true,
-        cursorChar: '|',
-        loop: false,
-        onComplete: (self) => {
-            self.cursor.style.display = 'none';
-        }
+        strings: [
+            "Web Designer & Developer.", 
+            "Believe in yourself, nothing is impossible.", 
+            "Based in <span style='color: #FF6B6B;'>Karbala</span>."
+        ],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000,
+        loop: true,
+        cursorChar: '_',
     };
     var typed = new Typed(".typed_text", options);
 </script>
