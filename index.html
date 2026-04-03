@@ -43,11 +43,13 @@
             border-radius: 8px;
             box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.39);
             margin-top: -50px;
+            position: relative; /* تم التأكيد عليها لضمان ترتيب الطبقات */
         }
 
         .header {
             height: 40%;
             position: relative;
+            z-index: 1; /* طبقة خلفية */
         }
 
         .wave_bg {
@@ -55,6 +57,7 @@
             position: relative;
             height: 100%;
             overflow: hidden;
+            pointer-events: none; /* لمنع الأمواج من حجب النقرات */
         }
 
         .wave-01, .wave-02, .wave-03 {
@@ -82,6 +85,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             border: 3px solid rgba(255, 255, 255, 0.2);
             background-color: #000;
+            z-index: 10; /* جعل الصورة فوق الأمواج */
         }
 
         .profile_video {
@@ -95,6 +99,7 @@
             position: relative;
             top: 7%;
             text-align: center;
+            z-index: 20; /* رفع منطقة النصوص والروابط لتكون فوق أي تداخل */
         }
 
         .satan {
@@ -109,7 +114,7 @@
             margin-top: 5px;
             padding: 0 10px;
             color: white;
-            min-height: 80px; /* لضمان وجود مساحة كافية للأسطر الثلاثة */
+            min-height: 80px;
         }
 
         .typed_text { 
@@ -120,18 +125,25 @@
 
         .social {
             padding: 5px;
-            margin: 45px auto 0; /* تم تقليل المسافة قليلاً لتناسب النص الإضافي */
+            margin: 45px auto 0;
             width: fit-content;
+            position: relative;
+            z-index: 30; /* ضمان أن تكون الروابط في أعلى طبقة ممكنة */
         }
 
         .social div { display: flex; justify-content: center; align-items: center; }
 
-        .social a { text-decoration: none; margin: 0 5px; }
+        .social a { 
+            text-decoration: none; 
+            margin: 0 5px; 
+            display: inline-block; /* لضمان استجابة مساحة الأيقونة بالكامل */
+        }
 
         .social i {
             padding: 10px;
             font-size: 1.2em;
             transition: transform 0.3s ease;
+            pointer-events: auto; /* التأكيد على استقبال اللمس */
         }
 
         .social i:hover { transform: scale(1.2); color: white !important; }
@@ -149,6 +161,8 @@
             font-weight: bolder;
             transition: 0.3s;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 30;
         }
 
         .satanic:hover {
@@ -189,21 +203,19 @@
             </div>
         </div>
         <a class="satanic" href="https://t.me/kokksha"><i class="fab fa-telegram"></i> Join Channel</a>
-        <p style="font-size: 0.65em; margin-top: 20px; color: rgba(255,255,255,0.5);">
+        <p style="font-size: 0.65em; margin-top: 20px; color: rgba(255,255,255,0.5); text-align: center;">
             © 2024-2026 Salem Al-Shammari
         </p>
     </div>
 </div>
 <script>
     var options = {
-        // نضع النصوص في سلسلة واحدة ونستخدم وسم <br> للنزول سطر جديد
         strings: ["Web Designer <br> There is nothing left to lose. <br> <span style='color: #6C63FF; font-weight: bold;'>Telegram: @kokksha</span>"],
         typeSpeed: 40,
         showCursor: true,
         cursorChar: '|',
         loop: false,
         onComplete: (self) => {
-            // اختياري: إخفاء المؤشر بعد الانتهاء من الكتابة
             self.cursor.style.display = 'none';
         }
     };
