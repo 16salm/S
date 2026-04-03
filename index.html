@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="theme-color" content="#6C63FF"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <meta name="description" content="@kokksha"/>
-    <title>SALEM</title>
+    <meta name="description" content="@officialamanzaid"/>
+    <title>Aman Zaid</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
@@ -97,7 +97,7 @@
             text-align: center;
         }
 
-        .satan {
+        .name_text {
             font-weight: 700;
             font-size: 1.4em;
             background: linear-gradient(to right, var(--pink), var(--purple));
@@ -109,6 +109,7 @@
             margin-top: 5px;
             padding: 0 10px;
             color: white;
+            min-height: 25px;
         }
 
         .typed_text { text-align: center; }
@@ -131,7 +132,7 @@
 
         .social i:hover { transform: scale(1.2); color: white !important; }
 
-        .satanic {
+        .cta_button {
             cursor: pointer;
             display: block;
             text-decoration: none;
@@ -146,20 +147,10 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .satanic:hover {
+        .cta_button:hover {
             box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
             transform: translateY(-2px);
         }
-
-        .cursor {
-            display: inline-block;
-            width: 2px;
-            background-color: #fff;
-            margin-left: 5px;
-            animation: blink 0.5s infinite;
-        }
-
-        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -173,38 +164,38 @@
         <div class="profile_pic_content">
             <video class="profile_video" autoplay loop muted playsinline>
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
-                متصفحك لا يدعم تشغيل الفيديو.
             </video>
         </div>
     </div>
     <div class="card_content">
-        <div class="satan">
-            <h4>SALEM</h4>
+        <div class="name_text">
+            <h4>Aman Zaid</h4>
         </div>
         <div class="snuff">
-            <h5 class="typed_text"><i>Hello World</i><span class="cursor">|</span></h5>
+            <span class="typed_text"></span>
         </div>
         <div class="social">
             <div>
-                <a href="https://t.me/kokksha"><i class="fab fa-telegram" style="color: #2AABEE;"></i></a>
+                <a href="https://t.me/officialamanzaid"><i class="fab fa-telegram" style="color: #2AABEE;"></i></a>
                 <a href="#"><i class="fab fa-instagram" style="color: #E1306C;"></i></a>
-                <a href="#"><i class="fab fa-facebook" style="color: #1877F2;"></i></a>
-                <a href="https://github.com/salemalshamrie"><i class="fab fa-github" style="color: #ffffff;"></i></a>
-                <a href="#"><i class="fas fa-futbol" style="color: #DB4437;"></i></a>
+                <a href="https://github.com/officialamanzaid"><i class="fab fa-github" style="color: #ffffff;"></i></a>
+                <a href="#"><i class="fas fa-code" style="color: #6C63FF;"></i></a>
             </div>
         </div>
-        <a class="satanic" href="https://t.me/kokksha"><i class="fab fa-telegram"></i> Join Channel</a>
+        <a class="cta_button" href="https://t.me/officialamanzaid"><i class="fab fa-telegram"></i> Let's Connect</a>
         <p style="font-size: 0.65em; margin-top: 20px; color: rgba(255,255,255,0.5);">
-            © 2024-2026 Salem Al-Shammari
+            © 2026 Aman Zaid
         </p>
     </div>
 </div>
 <script>
     var options = {
-        strings: ["Web Designer", "Believe in yourself.", "Telegram: @kokksha"],
-        typeSpeed: 50,
-        backSpeed: 30,
-        loop: true
+        strings: ["Web Designer", "There is nothing left to lose.", "Crafting Digital Experiences"],
+        typeSpeed: 60,
+        backSpeed: 40,
+        loop: true,
+        showCursor: true,
+        cursorChar: "|"
     };
     var typed = new Typed(".typed_text", options);
 </script>
