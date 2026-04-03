@@ -81,12 +81,14 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             border: 3px solid rgba(255, 255, 255, 0.1);
+            background-color: #000; /* خلفية سوداء في حال تأخر تحميل الفيديو */
         }
 
-        .profile_pic {
+        /* تعديل التصميم ليشمل الفيديو */
+        .profile_video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* لضمان عدم تمدد الصورة */
+            object-fit: cover; /* لضمان ملء الدائرة بالكامل دون تمطيط */
             display: block;
         }
 
@@ -170,7 +172,10 @@
             <div class="wave-03"></div>
         </div>
         <div class="profile_pic_content">
-            <img class="profile_pic" src="IMG_4738.jpeg" alt="SALEM">
+            <video class="profile_video" autoplay loop muted playsinline>
+                <source src="IMG_4738.mp4" type="video/mp4">
+                متصفحك لا يدعم تشغيل الفيديو.
+            </video>
         </div>
     </div>
     <div class="card_content">
