@@ -109,13 +109,18 @@
             margin-top: 5px;
             padding: 0 10px;
             color: white;
+            min-height: 80px; /* لضمان وجود مساحة كافية للأسطر الثلاثة */
         }
 
-        .typed_text { text-align: center; }
+        .typed_text { 
+            text-align: center; 
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
 
         .social {
             padding: 5px;
-            margin: 65px auto 0;
+            margin: 45px auto 0; /* تم تقليل المسافة قليلاً لتناسب النص الإضافي */
             width: fit-content;
         }
 
@@ -150,16 +155,6 @@
             box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
             transform: translateY(-2px);
         }
-
-        .cursor {
-            display: inline-block;
-            width: 2px;
-            background-color: #fff;
-            margin-left: 5px;
-            animation: blink 0.5s infinite;
-        }
-
-        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -182,7 +177,7 @@
             <h4>SALEM</h4>
         </div>
         <div class="snuff">
-            <h5 class="typed_text"><i>Hello World</i><span class="cursor">|</span></h5>
+            <h5 class="typed_text"></h5>
         </div>
         <div class="social">
             <div>
@@ -201,10 +196,16 @@
 </div>
 <script>
     var options = {
-        strings: ["Web Designer", "There is nothing left to lose.", "Telegram: @kokksha"],
-        typeSpeed: 50,
-        backSpeed: 30,
-        loop: false
+        // نضع النصوص في سلسلة واحدة ونستخدم وسم <br> للنزول سطر جديد
+        strings: ["Web Designer <br> There is nothing left to lose. <br> <span style='color: #6C63FF; font-weight: bold;'>Telegram: @kokksha</span>"],
+        typeSpeed: 40,
+        showCursor: true,
+        cursorChar: '|',
+        loop: false,
+        onComplete: (self) => {
+            // اختياري: إخفاء المؤشر بعد الانتهاء من الكتابة
+            self.cursor.style.display = 'none';
+        }
     };
     var typed = new Typed(".typed_text", options);
 </script>
