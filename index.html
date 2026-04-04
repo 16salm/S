@@ -11,91 +11,74 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     <style>
         :root {
-            /* الألوان الافتراضية الأصلية */
-            --back_color: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
+            /* التدرج المائي الأصلي (Deep Ocean) */
+            --back_color: linear-gradient(135deg, #0a192f, #1A2980, #020c1b, #1A2980);
             --front_color: rgba(10, 25, 47, 0.7);
             --gold: #FFD700;
             --muted-gold: #c5a059;
-            --deep-blue: #1A2980;
-            --white: #e6f1ff;
-            --wave-grad: linear-gradient(45deg, var(--deep-blue), var(--muted-gold));
-            --text-grad: linear-gradient(to right, var(--gold), var(--white));
+            --wave-grad: linear-gradient(45deg, #1A2980, var(--muted-gold));
+            --text-grad: linear-gradient(to right, var(--gold), #fff);
             
-            /* تأثير الانتقال السلس للألوان */
-            transition: all 0.8s ease;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* تنسيقات الألوان الخاصة للضغطات */
+        /* النمط الزمردي (Emerald Water) */
         [data-theme="emerald"] {
-            --back_color: radial-gradient(circle at center, #064e3b 0%, #022c22 100%);
-            --front_color: rgba(6, 78, 59, 0.6);
-            --gold: #34d399; /* أخضر زمردي فاتح للأجزاء الذهبية */
-            --muted-gold: #10b981; /* أخضر زمردي غامق للحدود */
-            --deep-blue: #047857; /* أخضر للموجة */
-            --wave-grad: linear-gradient(45deg, #047857, #34d399);
+            --back_color: linear-gradient(135deg, #022c22, #059669, #064e3b, #10b981);
+            --front_color: rgba(2, 44, 34, 0.7);
+            --gold: #34d399;
+            --muted-gold: #059669;
+            --wave-grad: linear-gradient(45deg, #064e3b, #34d399);
             --text-grad: linear-gradient(to right, #34d399, #e6fff7);
         }
 
+        /* النمط الفيكتوري (Victorian Liquid) */
         [data-theme="victorian"] {
-            --back_color: radial-gradient(circle at center, #4c1d95 0%, #2e1065 100%);
-            --front_color: rgba(76, 29, 149, 0.6);
-            --gold: #a78bfa; /* بنفسجي فيكتوري فاتح للأجزاء الذهبية */
-            --muted-gold: #8b5cf6; /* بنفسجي فيكتوري غامق للحدود */
-            --deep-blue: #6d28d9; /* بنفسجي للموجة */
-            --wave-grad: linear-gradient(45deg, #6d28d9, #a78bfa);
+            --back_color: linear-gradient(135deg, #2e1065, #7c3aed, #4c1d95, #6d28d9);
+            --front_color: rgba(46, 16, 101, 0.7);
+            --gold: #a78bfa;
+            --muted-gold: #7c3aed;
+            --wave-grad: linear-gradient(45deg, #4c1d95, #a78bfa);
             --text-grad: linear-gradient(to right, #a78bfa, #f5f3ff);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
             background: var(--back_color);
-            width: 100vw;
-            height: 100vh;
+            background-size: 400% 400%; /* لزوم حركة الماء */
+            animation: waterFlow 15s ease infinite;
+            width: 100vw; height: 100vh;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer; /* لإظهار أن الشاشة قابلة للضغط */
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+        }
+
+        /* أنيميشن تدفق الماء في الخلفية */
+        @keyframes waterFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .vcard {
-            width: 90%;
-            max-width: 420px;
-            height: 580px;
+            width: 90%; max-width: 420px; height: 580px;
             background: var(--front_color);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border-radius: 24px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            position: relative;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            position: relative; overflow: hidden;
         }
 
-        .header {
-            height: 35%;
-            position: relative;
-        }
+        .header { height: 35%; position: relative; }
 
-        .wave_bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
+        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
         .wave-01, .wave-02, .wave-03 {
-            position: absolute;
-            width: 550px;
-            height: 550px;
+            position: absolute; width: 550px; height: 550px;
             background: var(--wave-grad);
+            opacity: 0.6;
         }
 
         .wave-01 { border-radius: 43%; top: -180%; left: -15%; animation: rotate 14s linear infinite; }
@@ -105,96 +88,49 @@
         @keyframes rotate { 100% { transform: rotate(360deg); } }
 
         .profile_pic_content {
-            width: 135px;
-            height: 135px;
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            top: 100%;
-            overflow: hidden;
+            width: 135px; height: 135px; border-radius: 50%;
+            position: absolute; left: 50%; transform: translate(-50%, -50%);
+            top: 100%; overflow: hidden;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
             border: 3px solid var(--muted-gold);
-            background-color: #000;
-            z-index: 10;
+            background-color: #000; z-index: 10;
         }
 
-        .profile_video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .profile_video { width: 100%; height: 100%; object-fit: cover; }
 
-        .card_content {
-            padding-top: 85px;
-            text-align: center;
-        }
+        .card_content { padding-top: 85px; text-align: center; }
 
         .satan h4 {
-            font-size: 1.9em;
-            letter-spacing: 3px;
+            font-size: 1.9em; letter-spacing: 3px;
             background: var(--text-grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-            font-weight: 700;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 12px; font-weight: 700;
         }
 
-        .snuff {
-            min-height: 100px;
-            padding: 0 30px;
-            color: #8892b0;
-            font-size: 0.95em;
-            line-height: 1.6;
-        }
+        .snuff { min-height: 100px; padding: 0 30px; color: #8892b0; font-size: 0.95em; line-height: 1.6; }
 
-        .social {
-            margin-top: 20px;
-        }
-
-        .social div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
+        .social div { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 20px;}
         .social i {
-            padding: 12px;
-            font-size: 1.3em;
-            background: rgba(197, 160, 89, 0.05);
-            border-radius: 14px;
-            border: 1px solid rgba(197, 160, 89, 0.1);
-            color: var(--muted-gold);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 12px; font-size: 1.3em;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted-gold); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .social a:hover i { 
             color: var(--gold) !important; 
-            background: rgba(197, 160, 89, 0.15);
             transform: translateY(-5px);
             border-color: var(--gold);
         }
 
-        .footer-text {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            font-size: 0.75em;
-            color: rgba(136, 146, 176, 0.4);
-            text-align: center;
-        }
+        .footer-text { position: absolute; bottom: 20px; width: 100%; font-size: 0.75em; color: rgba(136, 146, 176, 0.4); text-align: center; }
     </style>
 </head>
 <body onclick="changeColorTheme()">
 
-<div class="vcard" onclick="event.stopPropagation()"> <div class="header">
-        <div class="wave_bg">
-            <div class="wave-01"></div>
-            <div class="wave-02"></div>
-            <div class="wave-03"></div>
-        </div>
+<div class="vcard" onclick="event.stopPropagation()">
+    <div class="header">
+        <div class="wave_bg"><div class="wave-01"></div><div class="wave-02"></div><div class="wave-03"></div></div>
         <div class="profile_pic_content">
             <video class="profile_video" autoplay loop muted playsinline poster="iou.jpg">
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
@@ -203,14 +139,8 @@
     </div>
 
     <div class="card_content">
-        <div class="satan">
-            <h4>SALEM</h4>
-        </div>
-        
-        <div class="snuff">
-            <h5 class="typed_text"></h5>
-        </div>
-
+        <div class="satan"><h4>SALEM</h4></div>
+        <div class="snuff"><h5 class="typed_text"></h5></div>
         <div class="social">
             <div>
                 <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
@@ -223,43 +153,24 @@
             </div>
         </div>
     </div>
-
-    <p class="footer-text">
-        © 2024-2026 Salem Al-Shammari | Karbala, Iraq
-    </p>
+    <p class="footer-text">© 2024-2026 Salem Al-Shammari | Karbala, Iraq</p>
 </div>
 
 <script>
-    // كود الكتابة المتحركة
     var options = {
-        strings: [
-            "Web Designer & Creative Developer.", 
-            "Turning code into visual art.", 
-            "<span style='color: var(--gold); font-weight: bold;'>BELIEVE IN YOURSELF</span>, NOTHING IS IMPOSSIBLE."
-        ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000,
-        loop: true,
-        cursorChar: '_',
+        strings: ["Web Designer & Creative Developer.", "Liquid Experience Design.", "<span style='color: var(--gold);'>BELIEVE IN YOURSELF</span>"],
+        typeSpeed: 50, backSpeed: 30, backDelay: 2000, loop: true
     };
-    var typed = new Typed(".typed_text", options);
+    new Typed(".typed_text", options);
 
-    // كود تغيير الألوان التفاعلي
     let clickCount = 0;
     const themes = ["default", "emerald", "victorian"];
 
     function changeColorTheme() {
         clickCount++;
-        const currentThemeIndex = clickCount % themes.length;
-        const currentTheme = themes[currentThemeIndex];
-        
-        // تطبيق التيمة عن طريق تغيير خاصية data-theme في عنصر html
-        if (currentTheme === "default") {
-            document.documentElement.removeAttribute("data-theme");
-        } else {
-            document.documentElement.setAttribute("data-theme", currentTheme);
-        }
+        const currentTheme = themes[clickCount % themes.length];
+        document.documentElement.setAttribute("data-theme", currentTheme);
+        if (currentTheme === "default") document.documentElement.removeAttribute("data-theme");
     }
 </script>
 </body>
