@@ -108,20 +108,46 @@
             background: linear-gradient(to right, var(--gold), var(--white));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         .snuff {
-            min-height: 100px;
+            min-height: 40px;
             padding: 0 30px;
             color: #8892b0;
-            font-size: 0.95em;
-            line-height: 1.6;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        /* تنسيق قسم المتابعين الجديد */
+        .stats_container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+        }
+
+        .stat_item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat_value {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .stat_label {
+            color: #8892b0;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .social {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .social div {
@@ -151,7 +177,7 @@
 
         .footer-text {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             width: 100%;
             font-size: 0.75em;
             color: rgba(136, 146, 176, 0.4);
@@ -185,6 +211,17 @@
             <h5 class="typed_text"></h5>
         </div>
 
+        <div class="stats_container">
+            <div class="stat_item">
+                <span class="stat_value">2000</span>
+                <span class="stat_label">Followers</span>
+            </div>
+            <div class="stat_item">
+                <span class="stat_value">35</span>
+                <span class="stat_label">Following</span>
+            </div>
+        </div>
+
         <div class="social">
             <div>
                 <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
@@ -208,7 +245,7 @@
         strings: [
             "Web Designer & Creative Developer.", 
             "Turning code into visual art.", 
-            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>, NOTHING IS IMPOSSIBLE."
+            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>"
         ],
         typeSpeed: 50,
         backSpeed: 30,
