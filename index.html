@@ -3,20 +3,22 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="theme-color" content="#FFD700"/>
+    <meta name="theme-color" content="#0984e3"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>SALEM | سـالـم</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,900&display=swap"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     <style>
         :root {
-            --back_color: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
-            --front_color: rgba(10, 25, 47, 0.7);
-            --gold: #FFD700;
-            --muted-gold: #c5a059;
-            --deep-blue: #1A2980;
-            --white: #e6f1ff;
+            /* لوحة ألوان الأنمي: سماء صافية وزهور الساكورا */
+            --back_color: linear-gradient(180deg, #74b9ff 0%, #a29bfe 100%);
+            --front_color: rgba(255, 255, 255, 0.9);
+            --anime-blue: #0984e3;
+            --anime-pink: #fd79a8;
+            --anime-border: #2d3436; /* تحديد المانجا الغامق */
+            --white: #ffffff;
+            --text-color: #2d3436;
         }
 
         * {
@@ -38,14 +40,16 @@
 
         .vcard {
             width: 90%;
-            max-width: 420px;
+            max-width: 400px;
             height: 580px;
             background: var(--front_color);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 24px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 30px;
+            /* تحديد صلب يشبه الرسم */
+            border: 4px solid var(--anime-border);
+            /* ظل صلب Offset Shadow */
+            box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.15);
             position: relative;
             overflow: hidden;
         }
@@ -53,6 +57,7 @@
         .header {
             height: 35%;
             position: relative;
+            background: #fff;
         }
 
         .wave_bg {
@@ -65,30 +70,31 @@
 
         .wave-01, .wave-02, .wave-03 {
             position: absolute;
-            width: 550px;
-            height: 550px;
-            background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold));
+            width: 600px;
+            height: 600px;
         }
 
-        .wave-01 { border-radius: 43%; top: -180%; left: -15%; animation: rotate 14s linear infinite; }
-        .wave-02 { border-radius: 40%; top: -185%; left: -20%; opacity: 0.3; animation: rotate 20s linear reverse infinite; }
-        .wave-03 { border-radius: 45%; top: -175%; left: -10%; opacity: 0.15; animation: rotate 17s ease-in-out infinite; }
+        /* أمواج بألوان باستيل حيوية */
+        .wave-01 { border-radius: 43%; top: -180%; left: -15%; background: var(--anime-blue); opacity: 0.7; animation: rotate 14s linear infinite; }
+        .wave-02 { border-radius: 40%; top: -185%; left: -20%; background: var(--anime-pink); opacity: 0.5; animation: rotate 20s linear reverse infinite; }
+        .wave-03 { border-radius: 45%; top: -175%; left: -10%; background: #ffeaa7; opacity: 0.4; animation: rotate 17s ease-in-out infinite; }
 
         @keyframes rotate { 100% { transform: rotate(360deg); } }
 
         .profile_pic_content {
-            width: 135px;
-            height: 135px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             position: absolute;
             left: 50%;
             transform: translate(-50%, -50%);
             top: 100%;
             overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            border: 3px solid var(--muted-gold);
-            background-color: #000;
+            background-color: #fff;
             z-index: 10;
+            /* تحديد الصورة لتبدو كإطار كرتوني */
+            border: 4px solid var(--anime-border);
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.1);
         }
 
         .profile_video {
@@ -98,63 +104,70 @@
         }
 
         .card_content {
-            padding-top: 85px;
+            padding-top: 80px;
             text-align: center;
         }
 
         .satan h4 {
-            font-size: 1.9em;
-            letter-spacing: 3px;
-            background: linear-gradient(to right, var(--gold), var(--white));
+            font-size: 2.2em;
+            letter-spacing: 2px;
+            /* تدرج لوني قوي */
+            background: linear-gradient(to bottom, var(--anime-blue), #6c5ce7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-            font-weight: 700;
+            margin-bottom: 10px;
+            font-weight: 900;
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));
         }
 
         .snuff {
-            min-height: 100px;
+            min-height: 80px;
             padding: 0 30px;
-            color: #8892b0;
-            font-size: 0.95em;
-            line-height: 1.6;
+            color: var(--text-color);
+            font-size: 1em;
+            font-weight: 500;
+            line-height: 1.5;
         }
 
         .social {
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .social div {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
         .social i {
             padding: 12px;
-            font-size: 1.3em;
-            background: rgba(197, 160, 89, 0.05);
-            border-radius: 14px;
-            border: 1px solid rgba(197, 160, 89, 0.1);
-            color: var(--muted-gold);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.4em;
+            background: var(--white);
+            border-radius: 12px;
+            /* أزرار محددة بوضوح */
+            border: 3px solid var(--anime-border);
+            color: var(--anime-blue);
+            transition: 0.2s ease-in-out;
+            box-shadow: 4px 4px 0px var(--anime-border);
         }
 
         .social a:hover i { 
-            color: var(--gold) !important; 
-            background: rgba(197, 160, 89, 0.15);
-            transform: translateY(-5px);
-            border-color: var(--gold);
+            background: var(--anime-pink) !important;
+            color: #fff !important;
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px var(--anime-border);
         }
 
         .footer-text {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             width: 100%;
-            font-size: 0.75em;
-            color: rgba(136, 146, 176, 0.4);
+            font-size: 0.8em;
+            font-weight: bold;
+            color: var(--anime-blue);
+            opacity: 0.6;
             text-align: center;
         }
     </style>
@@ -171,7 +184,6 @@
         <div class="profile_pic_content">
             <video class="profile_video" autoplay loop muted playsinline poster="iou.jpg">
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
-                متصفحك لا يدعم الفيديو.
             </video>
         </div>
     </div>
@@ -199,22 +211,22 @@
     </div>
 
     <p class="footer-text">
-        © 2024-2026 Salem Al-Shammari | Karbala, Iraq
+        © 2024-2026 SALEM | MADE WITH ART
     </p>
 </div>
 
 <script>
     var options = {
         strings: [
-            "Web Designer & Creative Developer.", 
-            "Turning code into visual art.", 
-            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>, NOTHING IS IMPOSSIBLE."
+            "Anime-Style Developer.", 
+            "Creating Visual Magic ✨", 
+            "<span style='color: #fd79a8; font-weight: 900;'>STAY CREATIVE</span>"
         ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000,
+        typeSpeed: 60,
+        backSpeed: 40,
+        backDelay: 1500,
         loop: true,
-        cursorChar: '_',
+        cursorChar: '|',
     };
     var typed = new Typed(".typed_text", options);
 </script>
