@@ -48,7 +48,7 @@
         .vcard {
             width: 90%;
             max-width: 420px;
-            height: 620px; /* زدت الارتفاع قليلاً لاستيعاب الأيقونة الجديدة */
+            height: 600px;
             background: var(--front_color);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
@@ -152,32 +152,16 @@
             transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* تنسيق الأيقونة المهزوزة المنفردة */
-        .tired-icon {
+        /* تنسيق الأيقونة المنفردة الثابتة */
+        .cigarette-icon {
             margin-top: 25px;
             display: inline-block;
         }
 
-        .tired-icon i {
+        .cigarette-icon i {
             font-size: 2em;
             color: #7f8c8d; /* لون باهت ليعطي إيحاء بالتعب */
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
-            animation: shake 0.5s infinite;
-        }
-
-        /* أنيميشن الاهتزاز */
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
         .social a:hover i { 
@@ -233,7 +217,7 @@
                 <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
             </div>
 
-            <div class="tired-icon">
+            <div class="cigarette-icon">
                 <a href="https://16salm.github.io/AI/" title="AI Project">
                     <i class="fas fa-smoking"></i>
                 </a>
