@@ -118,20 +118,35 @@
             background: linear-gradient(to right, var(--gold), var(--white));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
             font-weight: 700;
         }
 
+        /* تنسيق أيقونة السيجارة المرفوعة */
+        .cigarette-box {
+            margin: 10px 0;
+            display: block;
+        }
+
+        .cigarette-box i {
+            font-size: 2.2em;
+            color: var(--muted-gold);
+            transition: 0.3s ease;
+            filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.3));
+        }
+
+        .cigarette-box i:hover {
+            color: var(--gold);
+            transform: scale(1.1);
+        }
+
         .snuff {
-            min-height: 80px;
+            min-height: 60px;
             padding: 0 30px;
             color: #8892b0;
             font-size: 0.95em;
             line-height: 1.6;
-        }
-
-        .social {
-            margin-top: 15px;
+            margin-bottom: 15px;
         }
 
         .social div {
@@ -150,18 +165,6 @@
             border: 1px solid rgba(197, 160, 89, 0.1);
             color: var(--muted-gold);
             transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        /* تنسيق الأيقونة المنفردة الثابتة */
-        .cigarette-icon {
-            margin-top: 25px;
-            display: inline-block;
-        }
-
-        .cigarette-icon i {
-            font-size: 2em;
-            color: #7f8c8d; /* لون باهت ليعطي إيحاء بالتعب */
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
         }
 
         .social a:hover i { 
@@ -201,6 +204,10 @@
         <div class="satan">
             <h4>SALEM</h4>
         </div>
+
+        <a href="https://16salm.github.io/AI/" class="cigarette-box" title="AI Project">
+            <i class="fas fa-smoking"></i>
+        </a>
         
         <div class="snuff">
             <h5 class="typed_text"></h5>
@@ -215,12 +222,6 @@
                 <a href="tg://settings"><i class="fas fa-user"></i></a>
                 <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol"></i></a>
                 <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
-            </div>
-
-            <div class="cigarette-icon">
-                <a href="https://16salm.github.io/AI/" title="AI Project">
-                    <i class="fas fa-smoking"></i>
-                </a>
             </div>
         </div>
     </div>
