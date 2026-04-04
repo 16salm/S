@@ -11,7 +11,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     <style>
         :root {
-            /* تدرج لوني يحاكي عمق الماء */
             --water-deep: #0a192f;
             --water-mid: #1A2980;
             --water-light: #26d0ce;
@@ -29,7 +28,6 @@
         }
 
         body {
-            /* تدرج مائي متحرك */
             background: linear-gradient(-45deg, #0a192f, #1A2980, #141e30, #243b55);
             background-size: 400% 400%;
             animation: waterFlow 10s ease infinite;
@@ -41,7 +39,6 @@
             align-items: center;
         }
 
-        /* أنيميشن حركة الماء السائل */
         @keyframes waterFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -60,20 +57,6 @@
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
             position: relative;
             overflow: hidden;
-            z-index: 1;
-        }
-
-        /* إضافة لمعة مائية فوق البطاقة */
-        .vcard::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.03);
-            transform: rotate(30deg);
-            pointer-events: none;
         }
 
         .header {
@@ -233,8 +216,8 @@
     var options = {
         strings: [
             "Web Designer & Creative Developer.", 
-            "Liquid Experience Design.", 
-            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>"
+            "Turning code into visual art.", 
+            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>, NOTHING IS IMPOSSIBLE."
         ],
         typeSpeed: 50,
         backSpeed: 30,
