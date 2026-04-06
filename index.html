@@ -1,250 +1,114 @@
-<!DOCTYPE HTML>
-<html lang="ar">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="theme-color" content="#FFD700"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>SALEM | سـالـم</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
-    <style>
-        :root {
-            --water-deep: #0a192f;
-            --water-mid: #1A2980;
-            --water-light: #26d0ce;
-            --front_color: rgba(10, 25, 47, 0.7);
-            --gold: #FFD700;
-            --muted-gold: #c5a059;
-            --white: #e6f1ff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(-45deg, #0a192f, #1A2980, #141e30, #243b55);
-            background-size: 400% 400%;
-            animation: waterFlow 10s ease infinite;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        @keyframes waterFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .vcard {
-            width: 90%;
-            max-width: 420px;
-            height: 600px;
-            background: var(--front_color);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 24px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header {
-            height: 35%;
-            position: relative;
-        }
-
-        .wave_bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .wave-01, .wave-02, .wave-03 {
-            position: absolute;
-            width: 550px;
-            height: 550px;
-            background: linear-gradient(45deg, var(--water-mid), var(--water-light));
-            opacity: 0.4;
-        }
-
-        .wave-01 { border-radius: 43%; top: -180%; left: -15%; animation: rotate 14s linear infinite; }
-        .wave-02 { border-radius: 40%; top: -185%; left: -20%; opacity: 0.2; animation: rotate 20s linear reverse infinite; }
-        .wave-03 { border-radius: 45%; top: -175%; left: -10%; opacity: 0.1; animation: rotate 17s ease-in-out infinite; }
-
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-
-        .profile_pic_content {
-            width: 135px;
-            height: 135px;
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            top: 100%;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            border: 3px solid var(--muted-gold);
-            background-color: #000;
-            z-index: 10;
-        }
-
-        .profile_video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card_content {
-            padding-top: 85px;
-            text-align: center;
-        }
-
-        .satan h4 {
-            font-size: 1.9em;
-            letter-spacing: 3px;
-            background: linear-gradient(to right, var(--gold), var(--white));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        /* تنسيق أيقونة السيجارة المرفوعة */
-        .cigarette-box {
-            margin: 10px 0;
-            display: block;
-        }
-
-        .cigarette-box i {
-            font-size: 2.2em;
-            color: var(--muted-gold);
-            transition: 0.3s ease;
-            filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.3));
-        }
-
-        .cigarette-box i:hover {
-            color: var(--gold);
-            transform: scale(1.1);
-        }
-
-        .snuff {
-            min-height: 60px;
-            padding: 0 30px;
-            color: #8892b0;
-            font-size: 0.95em;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .social div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .social i {
-            padding: 12px;
-            font-size: 1.3em;
-            background: rgba(197, 160, 89, 0.05);
-            border-radius: 14px;
-            border: 1px solid rgba(197, 160, 89, 0.1);
-            color: var(--muted-gold);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .social a:hover i { 
-            color: var(--gold) !important; 
-            background: rgba(197, 160, 89, 0.15);
-            transform: translateY(-5px);
-            border-color: var(--gold);
-        }
-
-        .footer-text {
-            position: absolute;
-            bottom: 15px;
-            width: 100%;
-            font-size: 0.75em;
-            color: rgba(136, 146, 176, 0.4);
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-
-<div class="vcard">
-    <div class="header">
-        <div class="wave_bg">
-            <div class="wave-01"></div>
-            <div class="wave-02"></div>
-            <div class="wave-03"></div>
-        </div>
-        <div class="profile_pic_content">
-            <video class="profile_video" autoplay loop muted playsinline poster="iou.jpg">
-                <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-
-    <div class="card_content">
-        <div class="satan">
-            <h4>SALEM</h4>
-        </div>
-
-        <a href="https://16salm.github.io/AI/" class="cigarette-box" title="AI Project">
-            <i class="fas fa-smoking"></i>
-        </a>
-        
-        <div class="snuff">
-            <h5 class="typed_text"></h5>
-        </div>
-
-        <div class="social">
-            <div>
-                <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
-                <a href="https://github.com/salemalshamrie"><i class="fab fa-github"></i></a>
-                <a href="tg://settings"><i class="fas fa-user"></i></a>
-                <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol"></i></a>
-                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
-            </div>
-        </div>
-    </div>
-
-    <p class="footer-text">
-        © 2024-2026 Salem Al-Shammari | Karbala, Iraq
-    </p>
-</div>
-
 <script>
-    var options = {
-        strings: [
-            "Web Designer & Creative Developer.", 
-            "Turning code into visual art.", 
-            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>, NOTHING IS IMPOSSIBLE."
-        ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000,
-        loop: true,
-        cursorChar: '_',
-    };
-    var typed = new Typed(".typed_text", options);
+const supabaseClient = supabase.createClient(
+"https://gzioimivawyqxjoxajdw.supabase.co",
+"sb_publishable_JcCYx54XAf9iw3p1PwXSUA_rUdBzDX-"
+)
+
+let currentUser=null
+let liked=false
+
+function openPopup(){
+document.getElementById("loginPopup").style.display="flex"
+}
+
+function closePopup(){
+document.getElementById("loginPopup").style.display="none"
+}
+
+async function signIn(){
+const email=document.getElementById("email").value
+const password=document.getElementById("password").value
+
+await supabaseClient.auth.signInWithPassword({email,password})
+closePopup()
+init()
+}
+
+async function signUp(){
+const email=document.getElementById("email").value
+const password=document.getElementById("password").value
+
+await supabaseClient.auth.signUp({email,password})
+}
+
+async function likePost(postId){
+if(!currentUser){
+openPopup()
+return
+}
+
+if(liked){
+await supabaseClient.from("likes").delete()
+.eq("user_id",currentUser.id)
+.eq("post_id",postId)
+liked=false
+showMsg("💔 تم إزالة اللايك")
+}else{
+await supabaseClient.from("likes").insert({
+user_id:currentUser.id,
+post_id:postId
+})
+liked=true
+showMsg("❤️ لايك")
+}
+updateBtn()
+}
+
+function updateBtn(){
+const btn=document.getElementById("likeBtn")
+liked ? btn.classList.add("liked") : btn.classList.remove("liked")
+}
+
+async function getLikes(postId){
+const {data}=await supabaseClient.from("likes")
+.select("*").eq("post_id",postId)
+document.getElementById("likesCount").innerText=data.length
+}
+
+async function checkIfLiked(postId){
+const {data}=await supabaseClient.auth.getUser()
+currentUser=data.user
+if(!currentUser)return
+
+const {data:likes}=await supabaseClient.from("likes")
+.select("*")
+.eq("user_id",currentUser.id)
+.eq("post_id",postId)
+
+liked=likes.length>0
+updateBtn()
+}
+
+function subscribeToLikes(postId){
+supabaseClient.channel("likes")
+.on("postgres_changes",{
+event:"*",
+schema:"public",
+table:"likes",
+filter:`post_id=eq.${postId}`
+},()=>getLikes(postId))
+.subscribe()
+}
+
+function showMsg(text){
+const msg=document.getElementById("msg")
+msg.innerText=text
+setTimeout(()=>msg.innerText="",1500)
+}
+
+async function init(){
+await checkIfLiked(1)
+getLikes(1)
+subscribeToLikes(1)
+}
+
+init()
+
+// كتابة متحركة
+new Typed(".typed_text", {
+strings:["Web Developer","Creative Designer","🔥 Welcome"],
+typeSpeed:50,
+backSpeed:30,
+loop:true
+})
 </script>
-</body>
-</html>
