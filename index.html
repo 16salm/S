@@ -12,7 +12,7 @@
         body {
             background: linear-gradient(-45deg,#0a192f,#1A2980,#141e30,#243b55);
             background-size:400% 400%;
-            animation:bg 10s ease infinite;
+            animation:bg 15s ease infinite;
             display:flex;
             justify-content:center;
             align-items:center;
@@ -20,56 +20,77 @@
             font-family: 'Poppins', sans-serif;
             color:white;
             margin:0;
+            overflow: hidden;
         }
 
         @keyframes bg { 0%{background-position:0%} 50%{background-position:100%} 100%{background-position:0%} }
 
         .vcard {
             width:90%;
-            max-width:400px;
-            background:rgba(10, 25, 47, 0.8);
-            padding:30px;
-            border-radius:25px;
+            max-width:380px;
+            background:rgba(10, 25, 47, 0.85);
+            padding:40px 30px;
+            border-radius:30px;
             text-align:center;
-            backdrop-filter:blur(15px);
+            backdrop-filter:blur(20px);
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease;
         }
+        
+        .vcard:hover { transform: translateY(-5px); }
 
         #likeBtn {
-            font-size:35px;
+            font-size:45px;
             cursor:pointer;
-            transition: 0.3s;
-            color: #555; /* اللون الافتراضي */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: rgba(255,255,255,0.2);
             margin-top: 15px;
         }
 
         #likeBtn.liked {
             color: #ff4b2b;
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 8px #ff4b2b);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(255, 75, 43, 0.5));
         }
 
-        #likesCount { font-size: 1.1rem; margin-top: 5px; font-weight: bold; }
+        #likesCount { font-size: 1.2rem; margin-top: 10px; font-weight: bold; font-family: sans-serif; }
 
         #loginPopup {
             display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index: 999;
+            background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index: 1000;
+            backdrop-filter: blur(5px);
         }
 
-        .popup-box { background:#112240; padding:25px; border-radius:15px; width:280px; text-align:center; }
-        input { width:90%; padding:10px; margin:8px 0; border-radius:8px; border:none; outline: none; }
-        button { padding:10px 20px; border:none; border-radius:8px; background:#FFD700; cursor:pointer; font-weight: bold; }
-        #msg { height: 20px; margin-top: 10px; color: #FFD700; font-size: 0.9rem; }
+        .popup-box { 
+            background:#112240; padding:30px; border-radius:20px; width:300px; 
+            text-align:center; border: 1px solid #FFD70033;
+        }
+
+        input { 
+            width:100%; padding:12px; margin:10px 0; border-radius:10px; 
+            border:1px solid #233554; outline: none; background: #0a192f; color: white;
+            box-sizing: border-box;
+        }
+        
+        .btn-main { 
+            width: 100%; padding:12px; border:none; border-radius:10px; 
+            background:#FFD700; cursor:pointer; font-weight: bold; color: #0a192f;
+            margin-top: 10px;
+        }
+
+        #msg { height: 25px; margin-top: 15px; color: #FFD700; font-size: 0.95rem; font-weight: 500; }
     </style>
 </head>
 <body>
 
 <div class="vcard">
-    <h2>SALEM</h2>
-    <h5 class="typed_text" style="color: #FFD700; height: 20px;"></h5>
+    <h2 style="letter-spacing: 2px; margin-bottom: 10px;">SALEM</h2>
+    <div style="height: 25px;">
+        <span class="typed_text" style="color: #FFD700;"></span>
+    </div>
     
-    <div style="margin: 20px 0;">
+    <div style="margin: 30px 0;">
         <i class="fas fa-heart" id="likeBtn" onclick="likePost(1)"></i>
         <div id="likesCount">0</div>
     </div>
@@ -79,13 +100,12 @@
 
 <div id="loginPopup">
     <div class="popup-box">
-        <h3 style="color:#FFD700;">تسجيل الدخول</h3>
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
-        <br>
-        <button onclick="signIn()">دخول</button>
-        <button onclick="signUp()" style="background:transparent; color:white; border:1px solid #FFD700;">جديد؟</button>
-        <p onclick="closePopup()" style="color:#aaa; cursor:pointer; font-size:12px; margin-top:15px;">إغلاق</p>
+        <h3 style="color:#FFD700; margin-bottom: 20px;">تسجيل الدخول</h3>
+        <input id="email" type="email" placeholder="البريد الإلكتروني">
+        <input id="password" type="password" placeholder="كلمة المرور">
+        <button class="btn-main" onclick="signIn()">دخول</button>
+        <button onclick="signUp()" style="background:transparent; color:white; border:1px solid #FFD700; width: 100%; padding:10px; margin-top:10px; border-radius:10px; cursor:pointer;">إنشاء حساب جديد</button>
+        <p onclick="closePopup()" style="color:#8892b0; cursor:pointer; font-size:13px; margin-top:20px;">إلغاء</p>
     </div>
 </div>
 
@@ -95,10 +115,9 @@
         "sb_publishable_JcCYx54XAf9iw3p1PwXSUA_rUdBzDX-"
     );
 
-    let currentUser = null;
     let liked = false;
+    const POST_ID = 1;
 
-    // الدوال الأساسية
     function openPopup() { document.getElementById("loginPopup").style.display="flex"; }
     function closePopup() { document.getElementById("loginPopup").style.display="none"; }
 
@@ -114,20 +133,20 @@
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const { error } = await supabaseClient.auth.signUp({email, password});
-        alert(error ? error.message : "تأكد من بريدك الإلكتروني!");
+        alert(error ? error.message : "تم إرسال رسالة تأكيد لبريدك!");
     }
 
     async function likePost(postId) {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if(!user) return openPopup();
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if(!session) return openPopup();
         
-        currentUser = user;
+        const user = session.user;
         if(liked) {
-            await supabaseClient.from("likes").delete().eq("user_id", currentUser.id).eq("post_id", postId);
+            await supabaseClient.from("likes").delete().eq("user_id", user.id).eq("post_id", postId);
             liked = false;
             showMsg("تمت الإزالة 💔");
         } else {
-            await supabaseClient.from("likes").insert({ user_id: currentUser.id, post_id: postId });
+            await supabaseClient.from("likes").insert({ user_id: user.id, post_id: postId });
             liked = true;
             showMsg("أعجبني ❤️");
         }
@@ -140,15 +159,18 @@
     }
 
     async function getLikes(postId) {
-        const { data } = await supabaseClient.from("likes").select("*").eq("post_id", postId);
-        document.getElementById("likesCount").innerText = data ? data.length : 0;
+        const { count, error } = await supabaseClient
+            .from("likes")
+            .select('*', { count: 'exact', head: true })
+            .eq("post_id", postId);
+        
+        if (!error) document.getElementById("likesCount").innerText = count;
     }
 
     async function checkIfLiked(postId) {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if(!user) return;
-        currentUser = user;
-        const { data: likes } = await supabaseClient.from("likes").select("*").eq("user_id", currentUser.id).eq("post_id", postId);
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if(!session) return;
+        const { data: likes } = await supabaseClient.from("likes").select("*").eq("user_id", session.user.id).eq("post_id", postId);
         liked = likes && likes.length > 0;
         updateBtn();
     }
@@ -156,25 +178,27 @@
     function showMsg(text) {
         const msg = document.getElementById("msg");
         msg.innerText = text;
-        setTimeout(() => msg.innerText = "", 1500);
+        setTimeout(() => msg.innerText = "", 2000);
     }
 
     async function init() {
-        await checkIfLiked(1);
-        getLikes(1);
-        // تفعيل التحديث اللحظي
-        supabaseClient.channel('custom-all-channel')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'likes' }, () => getLikes(1))
+        await checkIfLiked(POST_ID);
+        getLikes(POST_ID);
+        
+        supabaseClient.channel('likes-channel')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'likes' }, () => getLikes(POST_ID))
         .subscribe();
     }
 
     init();
 
     new Typed(".typed_text", {
-        strings: ["Web Developer", "UI/UX Designer", "مرحباً بك في ملفي"],
+        strings: ["Web Developer", "UI/UX Designer", "Creative Developer"],
         typeSpeed: 60,
         backSpeed: 40,
-        loop: true
+        loop: true,
+        showCursor: true,
+        cursorChar: '|'
     });
 </script>
 </body>
