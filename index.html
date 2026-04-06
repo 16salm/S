@@ -1,74 +1,221 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE HTML>
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SALEM | Profile</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="theme-color" content="#FFD700"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>SALEM | سـالـم</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     <style>
-        body {
-            background: linear-gradient(-45deg,#0a192f,#1A2980,#141e30,#243b55);
-            background-size:400% 400%;
-            animation:bg 15s ease infinite;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
+        :root {
+            --back_color: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
+            --front_color: rgba(10, 25, 47, 0.7);
+            --gold: #FFD700;
+            --muted-gold: #c5a059;
+            --deep-blue: #1A2980;
+            --white: #e6f1ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            color:white;
-            margin:0;
+        }
+
+        body {
+            background: var(--back_color);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vcard {
+            width: 90%;
+            max-width: 420px;
+            height: 580px;
+            background: var(--front_color);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 24px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            position: relative;
             overflow: hidden;
         }
 
-        @keyframes bg { 0%{background-position:0%} 50%{background-position:100%} 100%{background-position:0%} }
-
-        .vcard {
-            width:90%;
-            max-width:380px;
-            background:rgba(10, 25, 47, 0.85);
-            padding:50px 30px;
-            border-radius:30px;
-            text-align:center;
-            backdrop-filter:blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        .header {
+            height: 35%;
+            position: relative;
         }
 
-        .typed_text {
-            color: #FFD700;
-            font-weight: bold;
-            font-size: 1.1rem;
+        .wave_bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        h2 {
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            font-size: 2rem;
+        .wave-01, .wave-02, .wave-03 {
+            position: absolute;
+            width: 550px;
+            height: 550px;
+            background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold));
+        }
+
+        .wave-01 { border-radius: 43%; top: -180%; left: -15%; animation: rotate 14s linear infinite; }
+        .wave-02 { border-radius: 40%; top: -185%; left: -20%; opacity: 0.3; animation: rotate 20s linear reverse infinite; }
+        .wave-03 { border-radius: 45%; top: -175%; left: -10%; opacity: 0.15; animation: rotate 17s ease-in-out infinite; }
+
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        .profile_pic_content {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            top: 100%;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--muted-gold);
+            background-color: #000;
+            z-index: 10;
+        }
+
+        .profile_video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card_content {
+            padding-top: 85px;
+            text-align: center;
+        }
+
+        .satan h4 {
+            font-size: 1.9em;
+            letter-spacing: 3px;
+            background: linear-gradient(to right, var(--gold), var(--white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .snuff {
+            min-height: 100px;
+            padding: 0 30px;
+            color: #8892b0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .social {
+            margin-top: 20px;
+        }
+
+        .social div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .social i {
+            padding: 12px;
+            font-size: 1.3em;
+            background: rgba(197, 160, 89, 0.05);
+            border-radius: 14px;
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            color: var(--muted-gold);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .social a:hover i { 
+            color: var(--gold) !important; 
+            background: rgba(197, 160, 89, 0.15);
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .footer-text {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            font-size: 0.75em;
+            color: rgba(136, 146, 176, 0.4);
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
 <div class="vcard">
-    <h2>SALEM</h2>
-    <div style="height: 30px;">
-        <span class="typed_text"></span>
+    <div class="header">
+        <div class="wave_bg">
+            <div class="wave-01"></div>
+            <div class="wave-02"></div>
+            <div class="wave-03"></div>
+        </div>
+        <div class="profile_pic_content">
+            <video class="profile_video" autoplay loop muted playsinline poster="iou.jpg">
+                <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
+            </video>
+        </div>
     </div>
+
+    <div class="card_content">
+        <div class="satan">
+            <h4>SALEM</h4>
+        </div>
+        
+        <div class="snuff">
+            <h5 class="typed_text"></h5>
+        </div>
+
+        <div class="social">
+            <div>
+                <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/salemalshamrie"><i class="fab fa-github"></i></a>
+                <a href="tg://settings"><i class="fas fa-user"></i></a>
+                <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol"></i></a>
+                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <p class="footer-text">
+        © 2024-2026 Salem Al-Shammari | Karbala, Iraq
+    </p>
 </div>
 
 <script>
-    // تفعيل تأثير الكتابة التلقائية
-    new Typed(".typed_text", {
-        strings: ["Web Developer", "UI/UX Designer", "Creative Developer"],
-        typeSpeed: 60,
-        backSpeed: 40,
+    var options = {
+        strings: [
+            "Web Designer & Creative Developer.", 
+            "Turning code into visual art.", 
+            "<span style='color: #FFD700; font-weight: bold;'>BELIEVE IN YOURSELF</span>, NOTHING IS IMPOSSIBLE."
+        ],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000,
         loop: true,
-        showCursor: true,
-        cursorChar: '|'
-    });
+        cursorChar: '_',
+    };
+    var typed = new Typed(".typed_text", options);
 </script>
-
 </body>
 </html>
