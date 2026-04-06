@@ -4,7 +4,6 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="theme-color" content="#FFD700"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>SALEM | سـالـم</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
@@ -30,7 +29,7 @@
         }
 
         .vcard {
-            width: 90%; max-width: 420px; height: 620px;
+            width: 90%; max-width: 420px; height: 630px;
             background: var(--front_color);
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2);
@@ -59,21 +58,19 @@
         .card_content { padding-top: 70px; text-align: center; }
         .satan h4 { font-size: 1.8em; letter-spacing: 2px; color: var(--gold); margin-bottom: 5px; }
         
-        /* تنسيق زر اللايك الجديد */
-        .like-section { margin: 15px 0; }
-        #likeBtn { 
-            font-size: 2rem; cursor: pointer; transition: 0.3s; color: rgba(255,255,255,0.2); 
-        }
+        .like-section { margin: 10px 0; }
+        #likeBtn { font-size: 1.8rem; cursor: pointer; transition: 0.3s; color: rgba(255,255,255,0.2); }
         #likeBtn.liked { color: #ff4b2b; transform: scale(1.2); filter: drop-shadow(0 0 8px #ff4b2b); }
-        #likesCount { font-size: 0.9rem; color: var(--white); margin-top: 5px; }
+        #likesCount { font-size: 0.85rem; color: var(--white); margin-top: 3px; }
 
-        .social div { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .social div { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; padding: 0 20px; }
         .social i {
-            padding: 10px; font-size: 1.2em; background: rgba(197, 160, 89, 0.05);
+            padding: 10px; font-size: 1.1em; background: rgba(197, 160, 89, 0.05);
             border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold);
+            transition: 0.3s;
         }
+        .social i:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-3px); }
 
-        /* نافذة التسجيل */
         #loginPopup {
             display:none; position:fixed; top:0; left:0; width:100%; height:100%;
             background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index: 1000;
@@ -108,10 +105,12 @@
 
         <div class="social">
             <div>
-                <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
-                <a href="https://github.com/salemalshamrie"><i class="fab fa-github"></i></a>
-                <a href="https://supabase.com/"><i class="fas fa-database"></i></a>
-                <a href="javascript:void(0)" onclick="openPopup()"><i class="fas fa-sign-in-alt" title="Login"></i></a>
+                <a href="https://t.me/kokksha"><i class="fab fa-telegram" title="Telegram"></i></a>
+                <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook" title="Facebook"></i></a>
+                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram" title="Instagram"></i></a>
+                <a href="https://github.com/salemalshamrie"><i class="fab fa-github" title="GitHub"></i></a>
+                <a href="tg://settings"><i class="fas fa-user" title="Profile"></i></a>
+                <a href="javascript:void(0)" onclick="openPopup()"><i class="fas fa-sign-in-alt" title="Login/Sign-up"></i></a>
             </div>
         </div>
     </div>
@@ -120,11 +119,11 @@
 
 <div id="loginPopup">
     <div class="popup-box">
-        <h3 style="color:var(--gold); margin-bottom:15px;">انضم إلينا</h3>
+        <h3 style="color:var(--gold); margin-bottom:15px;">تسجيل الدخول</h3>
         <input id="email" type="email" placeholder="البريد الإلكتروني">
         <input id="password" type="password" placeholder="كلمة المرور">
         <button class="auth-btn" onclick="signIn()">دخول</button>
-        <button onclick="signUp()" style="background:transparent; color:white; border:1px solid var(--gold); padding:10px; width:100%; margin-top:10px; border-radius:8px; cursor:pointer;">إنشاء حساب</button>
+        <button onclick="signUp()" style="background:transparent; color:white; border:1px solid var(--gold); padding:10px; width:100%; margin-top:10px; border-radius:8px; cursor:pointer;">حساب جديد</button>
         <p onclick="closePopup()" style="color:#aaa; cursor:pointer; font-size:12px; margin-top:15px;">إغلاق</p>
     </div>
 </div>
@@ -141,7 +140,7 @@
             email: document.getElementById("email").value,
             password: document.getElementById("password").value
         });
-        if(error) alert(error.message); else { closePopup(); init(); }
+        if(error) alert("خطأ: " + error.message); else { closePopup(); init(); }
     }
 
     async function signUp() {
@@ -149,22 +148,22 @@
             email: document.getElementById("email").value,
             password: document.getElementById("password").value
         });
-        alert(error ? error.message : "تم الإرسال! تحقق من بريدك.");
+        alert(error ? error.message : "تم إرسال رابط التأكيد لبريدك.");
     }
 
     async function likePost(postId) {
         const { data: { session } } = await supabaseClient.auth.getSession();
         if(!session) return openPopup();
         
-        const user = session.user;
         if(liked) {
-            await supabaseClient.from("likes").delete().eq("user_id", user.id).eq("post_id", postId);
+            await supabaseClient.from("likes").delete().eq("user_id", session.user.id).eq("post_id", postId);
             liked = false;
         } else {
-            await supabaseClient.from("likes").insert({ user_id: user.id, post_id: postId });
+            await supabaseClient.from("likes").insert({ user_id: session.user.id, post_id: postId });
             liked = true;
         }
         updateBtn();
+        getLikes(postId);
     }
 
     async function getLikes(postId) {
@@ -188,7 +187,7 @@
 
     init();
     new Typed(".typed_text", {
-        strings: ["Web Designer & Developer.", "Database Enthusiast.", "Creative Soul."],
+        strings: ["Web Designer & Developer.", "Creative Coder.", "Karbala, Iraq."],
         typeSpeed: 50, backSpeed: 30, loop: true
     });
 </script>
