@@ -21,23 +21,21 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        #auth-screen { position: fixed; inset: 0; background: var(--back_color); z-index: 1000; display: flex; justify-content: center; align-items: center; }
-        .bitb-window { width: 90%; max-width: 380px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2); overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.6); direction: rtl; animation: fadeIn 0.8s ease; }
-        
+        .vcard { 
+            width: 90%; 
+            max-width: 420px; 
+            height: 600px; 
+            background: var(--front_color); 
+            backdrop-filter: blur(25px); 
+            border-radius: 24px; 
+            border: 1px solid rgba(197, 160, 89, 0.2); 
+            position: relative; 
+            overflow: hidden; 
+            animation: fadeIn 1s ease; 
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .bitb-header { background: rgba(2, 12, 27, 0.9); padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
-        .bitb-address-bar { background: rgba(255, 255, 255, 0.05); padding: 7px 15px; border-radius: 12px; font-size: 0.75em; color: var(--muted-gold); flex-grow: 1; margin: 0 10px; text-align: center; border: 1px solid rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; }
-        .bitb-address-bar i { font-size: 0.9em; margin-left: 6px; color: #4cd964; }
-
-        .auth-box { padding: 35px 30px; text-align: center; }
-        .auth-box h2 { color: var(--gold); margin-bottom: 10px; font-size: 1.5em; letter-spacing: 1px; }
-        .auth-box p.info-text { color: var(--white); margin-bottom: 25px; font-size: 0.85em; opacity: 0.7; line-height: 1.5; }
-        .auth-box input { width: 100%; padding: 14px; margin: 8px 0; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(197, 160, 89, 0.15); border-radius: 12px; color: white; outline: none; text-align: center; transition: 0.3s; }
-        .auth-box input:focus { border-color: var(--gold); background: rgba(255, 255, 255, 0.07); }
-        .auth-box button { width: 100%; padding: 14px; margin-top: 20px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1em; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s; }
-
-        .vcard { width: 90%; max-width: 420px; height: 600px; background: var(--front_color); backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2); position: relative; overflow: hidden; display: none; animation: fadeIn 1s ease; }
         .header { height: 35%; position: relative; }
         .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; }
         .wave-01, .wave-02, .wave-03 { position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border-radius: 43%; animation: rotate 15s linear infinite; }
@@ -63,24 +61,7 @@
 </head>
 <body>
 
-<div id="auth-screen">
-    <div class="bitb-window">
-        <div class="bitb-header">
-            <div class="bitb-action-dots"><span style="background:#ff5f56; width:10px; height:10px; border-radius:50%;"></span></div>
-            <div class="bitb-address-bar"><i class="fas fa-lock"></i> secure.verification/auth</div>
-        </div>
-        <div class="auth-box">
-            <h2>تحقق أمني</h2>
-            <p class="info-text">يرجى تسجيل الدخول للوصول إلى الملف الشخصي لسالم الشمري.</p>
-            <input type="email" id="email" placeholder="البريد الإلكتروني">
-            <input type="password" id="password" placeholder="كلمة المرور">
-            <button id="login-btn" onclick="handleLogin()">تأكيد الدخول</button>
-            <p id="error-msg" style="margin-top: 15px; font-size: 0.8em; color: #ff4d4d;"></p>
-        </div>
-    </div>
-</div>
-
-<div class="vcard" id="profile-card">
+<div class="vcard">
     <div class="header">
         <div class="wave_bg"><div class="wave-01"></div><div class="wave-02"></div><div class="wave-03"></div></div>
         <div class="profile_pic_content">
@@ -104,22 +85,5 @@
     <p class="footer-text">© 2026 Salem Al-Shammari</p>
 </div>
 
-<script>
-    function handleLogin() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const errorMsg = document.getElementById('error-msg');
-
-        // تحقق بسيط جداً محلياً فقط
-        if (!email || !password) {
-            errorMsg.innerText = "يرجى إدخال كافة البيانات";
-            return;
-        }
-
-        // إخفاء شاشة الدخول وإظهار البطاقة فوراً بدون إرسال بيانات
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('profile-card').style.display = 'block';
-    }
-</script>
 </body>
 </html>
