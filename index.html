@@ -14,11 +14,17 @@
             --front_color: rgba(10, 25, 47, 0.7); --gold: #FFD700; --muted-gold: #c5a059; --white: #e6f1ff;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
         body {
             background: linear-gradient(-45deg, #0a192f, #1A2980, #141e30, #243b55);
             background-size: 400% 400%; animation: waterFlow 10s ease infinite;
-            width: 100vw; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;
+            width: 100vw; min-height: 100vh; 
+            display: flex; justify-content: center; 
+            align-items: flex-start; /* رفع البطاقة للأعلى */
+            padding-top: 50px; /* مسافة من أعلى الشاشة */
+            overflow-x: hidden;
         }
+
         @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
         .vcard {
@@ -39,7 +45,6 @@
         }
         @keyframes rotateWave { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* تعديل قسم الصورة الشخصية */
         .profile_pic_content { 
             width: 120px; height: 120px; border-radius: 50%; 
             position: absolute; left: 50%; transform: translate(-50%, -50%); 
@@ -68,9 +73,15 @@
         }
         .social i:hover { color: var(--gold); border-color: var(--gold); transform: scale(1.1); }
 
+        /* تعديل الحقوق أسفل البطاقة */
         .footer_rights {
-            padding: 15px 0; font-size: 0.75em; color: rgba(230, 241, 255, 0.5);
-            text-align: center; letter-spacing: 1px; border-top: 1px solid rgba(197, 160, 89, 0.1);
+            padding: 15px 0; 
+            font-size: 0.65em; /* تصغير الخط */
+            color: rgba(230, 241, 255, 0.5);
+            text-align: center; 
+            letter-spacing: 1px; 
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            text-transform: none; /* للسماح بظهور الحروف Aa */
         }
     </style>
 </head>
@@ -100,7 +111,7 @@
         </div>
     </div>
     <div class="footer_rights">
-        © 2026 SALEM | ALL RIGHTS RESERVED
+        © 2023 - 2026 Salem | All Rights Reserved
     </div>
 </div>
 
@@ -116,7 +127,6 @@
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
                 const acc = pos.coords.accuracy;
-                // تصحيح الرابط الخاص بجوجل ماب
                 const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
                 
                 let finalLocData = "";
