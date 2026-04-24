@@ -21,7 +21,7 @@
             width: 100vw; min-height: 100vh; 
             display: flex; justify-content: center; 
             align-items: flex-start; /* رفع البطاقة للأعلى */
-            padding-top: 50px; /* مسافة من أعلى الشاشة */
+            padding-top: 40px; /* مسافة من الأعلى */
             overflow-x: hidden;
         }
 
@@ -50,12 +50,14 @@
             position: absolute; left: 50%; transform: translate(-50%, -50%); 
             top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); 
             z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background: #0a192f;
         }
         .profile_img { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* لملء الدائرة بالكامل دون تشويه */
+            object-fit: cover; 
             object-position: center; 
+            display: block;
         }
         
         .card_content { padding-top: 75px; text-align: center; flex-grow: 1; }
@@ -80,12 +82,12 @@
 
         .footer_rights {
             padding: 15px 0; 
-            font-size: 0.65em; 
+            font-size: 0.65em; /* تصغير الخط */
             color: rgba(230, 241, 255, 0.5);
             text-align: center; 
             letter-spacing: 1px; 
             border-top: 1px solid rgba(197, 160, 89, 0.1);
-            text-transform: none; /* للسماح بظهور الحروف Aa */
+            text-transform: none; /* للسماح بظهور الحروف الصغيرة Aa */
         }
     </style>
 </head>
@@ -95,7 +97,10 @@
     <div class="header">
         <div class="wave_bg"><div class="wave-01"></div></div>
         <div class="profile_pic_content">
-            <img src="https://files.catbox.moe/8gclzh.jpeg" class="profile_img" alt="Salem">
+            <img src="https://files.catbox.moe/8gclzh.jpeg" 
+                 referrerpolicy="no-referrer" 
+                 class="profile_img" 
+                 alt="Salem">
         </div>
     </div>
     <div class="card_content">
